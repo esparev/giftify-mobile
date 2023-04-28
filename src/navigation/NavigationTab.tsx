@@ -12,9 +12,9 @@ const Tab = createBottomTabNavigator();
 const NavigationTab = (): JSX.Element => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Inicio" component={HomeStackNavigator} />
-      <Tab.Screen name="Buscar" component={SearchStackNavigator} />
-      <Tab.Screen name="Historial" component={ProfileStackNavigator} />
+      <Tab.Screen name="Inicio" component={HomeStackNavigator} options={{headerShown: false}} />
+      <Tab.Screen name="Buscar" component={SearchStackNavigator} options={{headerShown: false}} />
+      <Tab.Screen name="Historial" component={ProfileStackNavigator} options={{headerShown: false}} />
     </Tab.Navigator>
   );
 };
