@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import color from '../../../styles/color';
 import font from '../../../styles/font';
 
@@ -8,6 +8,7 @@ const giftItem = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: color.foreground,
     overflow: 'hidden',
+    marginBottom: 24,
   },
   image: {
     width: '100%',
