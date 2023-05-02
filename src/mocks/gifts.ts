@@ -2,7 +2,7 @@ const gifts = [
   {
     id: 'a4179f9d-18cc-4b99-a87d-620632e3dc57',
     name: 'Auriculares inalámbricos',
-    image: 'https://example.com/headphones.jpg',
+    image: 'https://i.imgur.com/9FhWSJl.jpg',
     rating: 5,
     price: 99.99,
     description:
@@ -12,7 +12,7 @@ const gifts = [
   {
     id: 'a0a03e31-f822-4d99-a1b4-c4fbdbd35803',
     name: 'Taza personalizada',
-    image: 'https://example.com/mug.jpg',
+    image: 'https://i.imgur.com/DZTwfHS.jpg',
     rating: 5,
     price: 14.99,
     description:
@@ -22,7 +22,7 @@ const gifts = [
   {
     id: '6948c40b-74c7-4660-a70d-8ae0505a5b5d',
     name: 'Bouquet de flores',
-    image: 'https://example.com/bouquet.jpg',
+    image: 'https://i.imgur.com/x0oqWO2.jpg',
     rating: 4,
     price: 35.99,
     description: 'Un hermoso ramo de flores para demostrar tu amor y aprecio',
@@ -31,7 +31,7 @@ const gifts = [
   {
     id: '4c53dc8e-5d06-4629-aecd-7a5315f5b5e3',
     name: 'Bolso de mano',
-    image: 'https://example.com/handbag.jpg',
+    image: 'https://i.imgur.com/De7N9V3.jpg',
     rating: 3,
     price: 79.99,
     description:
@@ -41,7 +41,7 @@ const gifts = [
   {
     id: '579ef9b7-5416-4d6d-ba6d-3f794cbf2a8a',
     name: 'Juego de mesa',
-    image: 'https://example.com/boardgame.jpg',
+    image: 'https://i.imgur.com/ebcuAZj.jpg',
     rating: 4,
     price: 39.99,
     description:
@@ -51,7 +51,7 @@ const gifts = [
   {
     id: '491f4666-f0f6-4ea6-9d9b-87cc84c5a025',
     name: 'Botella de vino',
-    image: 'https://example.com/wine.jpg',
+    image: 'https://i.imgur.com/a9p3BaA.jpg',
     rating: 4,
     price: 49.99,
     description:
@@ -61,7 +61,7 @@ const gifts = [
   {
     id: '31dabf7b-c56a-4d7b-9a58-cc8c0c82ed04',
     name: 'Collar de plata',
-    image: 'https://example.com/necklace.jpg',
+    image: 'https://i.imgur.com/lawVlvw.jpg',
     rating: 3,
     price: 89.99,
     description: 'Un elegante collar de plata para resaltar su belleza',
@@ -70,7 +70,7 @@ const gifts = [
   {
     id: 'ef1316ab-84a8-4c47-b118-173f10e67405',
     name: 'Ramita de salvia',
-    image: 'https://example.com/sage.jpg',
+    image: 'https://i.imgur.com/1N1HNtp.jpg',
     rating: 5,
     price: 7.99,
     description:
@@ -80,7 +80,7 @@ const gifts = [
   {
     id: 'c4f40ab7-7278-4c4d-8f28-9e7b84d8346d',
     name: 'Reloj de pulsera',
-    image: 'https://example.com/watch.jpg',
+    image: 'https://i.imgur.com/1on9Y3I.jpg',
     rating: 4,
     price: 149.99,
     description:
@@ -90,7 +90,7 @@ const gifts = [
   {
     id: 'c8969b07-2341-4c11-b33b-6a60a6f4b26d',
     name: 'Billetera de cuero',
-    image: 'https://example.com/wallet.jpg',
+    image: 'https://i.imgur.com/dAKFtzz.jpg',
     rating: 4,
     price: 49.99,
     description:
