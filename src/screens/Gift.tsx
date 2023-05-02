@@ -15,17 +15,27 @@ const Gift = () => {
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(giftItem.price);
 
+  /**
+   * Handle the type of the gift (delivery or pickup) and updates the active button
+   * @param {string} type - Type of the gift (delivery or pickup)
+   */
   const handleType = (type: string) => {
     const isDelivery = type === 'delivery' ? true : false;
     setActiveButton(isDelivery);
   };
 
+  /**
+   * Add quantity of the gift and updates the quantity and total values
+   */
   const addQuantity = () => {
     setQuantity(quantity + 1);
     const totalValue = Number((giftItem.price * (quantity + 1)).toFixed(2));
     setTotal(totalValue);
   };
 
+  /**
+   * Remove quantity of the gift and updates the quantity and total values
+   */
   const removeQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
