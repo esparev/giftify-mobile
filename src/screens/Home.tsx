@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, SafeAreaView, View, Image } from 'react-native';
+import { TouchableOpacity, View, Image } from 'react-native';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
 import icon from '../styles/icon';
@@ -13,7 +13,7 @@ const promotion = '../assets/static/promotion.png';
 
 const Home = (): JSX.Element => {
   return (
-    <SafeAreaView style={home.main}>
+    <View style={home.main}>
       {/* Header */}
       <View style={home.header}>
         {/* Location */}
@@ -44,7 +44,7 @@ const Home = (): JSX.Element => {
       <View></View>
       {/* Gift Items */}
       <GiftList gifts={gifts} />
-    </SafeAreaView>
+    </View>
   );
 };
 
