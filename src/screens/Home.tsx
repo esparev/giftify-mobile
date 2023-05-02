@@ -10,7 +10,6 @@ const mapMarker = '../assets/icons/map-marker-area.png';
 const cart = '../assets/icons/cart.png';
 const profile = '../assets/static/profile.png';
 const promotion = '../assets/static/promotion.png';
-const candles = 'https://i.imgur.com/O9Kqb2k.png';
 
 const Home = (): JSX.Element => {
   return (

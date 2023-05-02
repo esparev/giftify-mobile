@@ -1,5 +1,7 @@
 import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { TextRegular, TextSemiBold } from '../CustomText';
 import giftItem from './styles/giftItem';
 
@@ -7,11 +9,16 @@ const defaultGift = '../../assets/static/default-gift.png';
 const star = '../../assets/icons/favorite-star.png';
 
 const GiftItem = (props: { gift: GiftProps }): JSX.Element => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const goToGift = (): void => {
+    navigation.push('Gift');
+  };
+
   return (
-    <TouchableOpacity style={giftItem.card}>
+    <TouchableOpacity style={giftItem.card} onPress={goToGift}>
       <Image
-        defaultSource={require(defaultGift)}
-        onError={() => require(defaultGift)}
+        defaultSource={{uri: defaultGift}}
         source={{ uri: props.gift.image }}
         style={giftItem.image}
       />
