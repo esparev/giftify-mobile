@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextSemiBold } from '../CustomText';
+import { addQty, removeQty } from '../../utils/functions/qtyModifier';
 import cartItem from './styles/cartItem';
 
 import gifts from '../../mocks/gifts';
@@ -10,28 +11,8 @@ const giftItem = gifts[0];
 
 const CartItem = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
-  const [quantity, setQuantity] = useState(1);
+  const [qty, setQty] = useState(1);
   const [total, setTotal] = useState(giftItem.price);
-
-  /**
-   * Add quantity of the gift and updates the quantity and total values
-   */
-  const addQuantity = () => {
-    setQuantity(quantity + 1);
-    const totalValue = Number((giftItem.price * (quantity + 1)).toFixed(2));
-    setTotal(totalValue);
-  };
-
-  /**
-   * Remove quantity of the gift and updates the quantity and total values
-   */
-  const removeQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      const totalValue = Number((giftItem.price * (quantity - 1)).toFixed(2));
-      setTotal(totalValue);
-    }
-  };
 
   return (
     <TouchableOpacity
@@ -45,19 +26,17 @@ const CartItem = () => {
         {/* Footer */}
         <View style={cartItem.footer}>
           {/* Quantity Modifier */}
-          <View style={cartItem.quantityModifier}>
+          <View style={cartItem.qtyModifier}>
             <TouchableOpacity
-              style={cartItem.removeQuantity}
-              onPress={removeQuantity}>
-              <TextSemiBold style={cartItem.quantityItems}>-</TextSemiBold>
+              style={cartItem.removeQty}
+              onPress={() => removeQty(qty, giftItem.price, setQty, setTotal)}>
+              <TextSemiBold style={cartItem.qtyItems}>-</TextSemiBold>
             </TouchableOpacity>
-            <TextSemiBold style={cartItem.quantityItems}>
-              {quantity}
-            </TextSemiBold>
+            <TextSemiBold style={cartItem.qtyItems}>{qty}</TextSemiBold>
             <TouchableOpacity
-              style={cartItem.addQuantity}
-              onPress={addQuantity}>
-              <TextSemiBold style={cartItem.quantityItems}>+</TextSemiBold>
+              style={cartItem.addQty}
+              onPress={() => addQty(qty, giftItem.price, setQty, setTotal)}>
+              <TextSemiBold style={cartItem.qtyItems}>+</TextSemiBold>
             </TouchableOpacity>
           </View>
           {/* Price */}

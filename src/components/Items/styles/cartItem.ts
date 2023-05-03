@@ -34,12 +34,12 @@ const cartItem = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  quantityModifier: {
+  qtyModifier: {
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: 20,
   },
-  addQuantity: {
+  addQty: {
     width: 36,
     height: 36,
     borderRadius: 8,
@@ -47,11 +47,11 @@ const cartItem = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: color.primary,
   },
-  quantityItems: {
+  qtyItems: {
     fontSize: font.size.sm,
     color: color.primary_text,
   },
-  removeQuantity: {
+  removeQty: {
     width: 36,
     height: 36,
     borderRadius: 8,

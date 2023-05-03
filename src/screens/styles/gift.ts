@@ -55,7 +55,7 @@ const gift = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
+  btn: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -63,36 +63,36 @@ const gift = StyleSheet.create({
     paddingHorizontal: 48,
     borderRadius: 8,
   },
-  buttonText: {
+  btnText: {
     fontSize: font.size.base,
   },
   //? Active type styles
-  buttonActive: {
+  btnActive: {
     backgroundColor: color.primary,
   },
-  buttonTextActive: {
+  btnTextActive: {
     color: color.primary_text,
   },
   //! Active type styles
-  buttonInactive: {
+  btnInactive: {
     backgroundColor: color.foreground,
   },
-  buttonTextInactive: {
+  btnTextInactive: {
     color: color.secondary_text,
   },
   footer: {
     rowGap: 20,
   },
-  quantity: {
+  qty: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  quantityModifier: {
+  qtyModifier: {
     flexDirection: 'row',
     columnGap: 32,
   },
-  addQuantity: {
+  addQty: {
     width: 40,
     height: 40,
     borderRadius: 8,
@@ -100,11 +100,11 @@ const gift = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: color.primary,
   },
-  quantityItems: {
+  qtyItems: {
     fontSize: 20,
     color: color.primary_text,
   },
-  removeQuantity: {
+  removeQty: {
     width: 40,
     height: 40,
     borderRadius: 8,
@@ -112,7 +112,7 @@ const gift = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: color.foreground,
   },
-  quantityText: {
+  qtyText: {
     fontSize: font.size.base,
     color: color.secondary_text,
   },
@@ -133,7 +133,7 @@ const gift = StyleSheet.create({
     fontSize: 20,
     color: color.primary_text,
   },
-  checkoutButton: {
+  checkoutBtn: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 8,

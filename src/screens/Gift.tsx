@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
+import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
 import gift from './styles/gift';
 
 import gifts from '../mocks/gifts';
@@ -11,38 +12,9 @@ const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
 
 const Gift = () => {
-  const [activeButton, setActiveButton] = useState(true);
-  const [quantity, setQuantity] = useState(1);
+  const [qty, setQty] = useState(1);
   const [total, setTotal] = useState(giftItem.price);
-
-  /**
-   * Handle the type of the gift (delivery or pickup) and updates the active button
-   * @param {string} type - Type of the gift (delivery or pickup)
-   */
-  const handleType = (type: string) => {
-    const isDelivery = type === 'delivery' ? true : false;
-    setActiveButton(isDelivery);
-  };
-
-  /**
-   * Add quantity of the gift and updates the quantity and total values
-   */
-  const addQuantity = () => {
-    setQuantity(quantity + 1);
-    const totalValue = Number((giftItem.price * (quantity + 1)).toFixed(2));
-    setTotal(totalValue);
-  };
-
-  /**
-   * Remove quantity of the gift and updates the quantity and total values
-   */
-  const removeQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      const totalValue = Number((giftItem.price * (quantity - 1)).toFixed(2));
-      setTotal(totalValue);
-    }
-  };
+  const [activeBtn, setActiveBtn] = useState(true);
 
   return (
     <View style={gift.main}>
@@ -80,33 +52,23 @@ const Gift = () => {
           {/* Buttons */}
           <View style={gift.buttons}>
             <TouchableOpacity
-              style={[
-                gift.button,
-                activeButton ? gift.buttonActive : gift.buttonInactive,
-              ]}
-              onPress={() => handleType('delivery')}>
+              style={[gift.btn, activeBtn ? gift.btnActive : gift.btnInactive]}
+              onPress={() => handleType('delivery', setActiveBtn)}>
               <TextRegular
                 style={[
-                  gift.buttonText,
-                  activeButton
-                    ? gift.buttonTextActive
-                    : gift.buttonTextInactive,
+                  gift.btnText,
+                  activeBtn ? gift.btnTextActive : gift.btnTextInactive,
                 ]}>
                 Entrega
               </TextRegular>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                gift.button,
-                activeButton ? gift.buttonInactive : gift.buttonActive,
-              ]}
-              onPress={() => handleType('pickup')}>
+              style={[gift.btn, activeBtn ? gift.btnInactive : gift.btnActive]}
+              onPress={() => handleType('pickup', setActiveBtn)}>
               <TextRegular
                 style={[
-                  gift.buttonText,
-                  activeButton
-                    ? gift.buttonTextInactive
-                    : gift.buttonTextActive,
+                  gift.btnText,
+                  activeBtn ? gift.btnTextInactive : gift.btnTextActive,
                 ]}>
                 Recoger
               </TextRegular>
@@ -117,18 +79,20 @@ const Gift = () => {
       {/* Footer */}
       <View style={gift.footer}>
         {/* Quantity */}
-        <View style={gift.quantity}>
-          <TextRegular style={gift.quantityText}>Cantidad</TextRegular>
+        <View style={gift.qty}>
+          <TextRegular style={gift.qtyText}>Cantidad</TextRegular>
           {/* Buttons */}
-          <View style={gift.quantityModifier}>
+          <View style={gift.qtyModifier}>
             <TouchableOpacity
-              style={gift.removeQuantity}
-              onPress={removeQuantity}>
-              <TextSemiBold style={gift.quantityItems}>-</TextSemiBold>
+              style={gift.removeQty}
+              onPress={() => removeQty(qty, giftItem.price, setQty, setTotal)}>
+              <TextSemiBold style={gift.qtyItems}>-</TextSemiBold>
             </TouchableOpacity>
-            <TextSemiBold style={gift.quantityItems}>{quantity}</TextSemiBold>
-            <TouchableOpacity style={gift.addQuantity} onPress={addQuantity}>
-              <TextSemiBold style={gift.quantityItems}>+</TextSemiBold>
+            <TextSemiBold style={gift.qtyItems}>{qty}</TextSemiBold>
+            <TouchableOpacity
+              style={gift.addQty}
+              onPress={() => addQty(qty, giftItem.price, setQty, setTotal)}>
+              <TextSemiBold style={gift.qtyItems}>+</TextSemiBold>
             </TouchableOpacity>
           </View>
         </View>
@@ -138,7 +102,7 @@ const Gift = () => {
             <TextRegular style={gift.totalText}>Total:</TextRegular>
             <TextSemiBold style={gift.totalValue}>${total}</TextSemiBold>
           </View>
-          <TouchableOpacity style={gift.checkoutButton}>
+          <TouchableOpacity style={gift.checkoutBtn}>
             <TextRegular style={gift.checkoutText}>Order</TextRegular>
           </TouchableOpacity>
         </View>
