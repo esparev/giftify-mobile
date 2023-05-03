@@ -11,14 +11,12 @@ const star = '../../assets/icons/favorite-star.png';
 const GiftItem = (props: { gift: GiftProps }): JSX.Element => {
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const goToGift = (): void => {
-    navigation.push('Gift');
-  };
-
   return (
-    <TouchableOpacity style={giftItem.card} onPress={goToGift}>
+    <TouchableOpacity
+      style={giftItem.card}
+      onPress={() => navigation.push('Gift')}>
       <Image
-        defaultSource={{uri: defaultGift}}
+        defaultSource={{ uri: defaultGift }}
         source={{ uri: props.gift.image }}
         style={giftItem.image}
       />

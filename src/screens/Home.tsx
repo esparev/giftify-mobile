@@ -1,5 +1,7 @@
 import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
 import icon from '../styles/icon';
@@ -12,6 +14,8 @@ const profile = '../assets/static/profile.png';
 const promotion = '../assets/static/promotion.png';
 
 const Home = (): JSX.Element => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   return (
     <View style={home.main}>
       {/* Header */}
@@ -28,7 +32,7 @@ const Home = (): JSX.Element => {
         </TouchableOpacity>
         {/* Cart & Profile */}
         <View style={home.cartProfile}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.push('Cart')}>
             <Image source={require(cart)} style={icon.size} />
           </TouchableOpacity>
           <TouchableOpacity>
