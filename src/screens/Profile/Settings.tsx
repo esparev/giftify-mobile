@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TextMedium, TextSemiBold } from '../../components/CustomText';
 import Header from '../../components/Header';
 import settings from './styles/settings';
+import form from '../../styles/form';
 
 const Settings = () => {
   return (
@@ -23,28 +24,28 @@ const Settings = () => {
         </View>
       </View>
       {/* Form */}
-      <View style={settings.form}>
-        <View style={settings.inputField}>
-          <TextMedium style={settings.label}>Nombre</TextMedium>
-          <TextInput style={settings.input} placeholder="Gwen D. Miller" />
+      <View style={form.form}>
+        <View style={form.inputField}>
+          <TextMedium style={form.label}>Nombre</TextMedium>
+          <TextInput style={form.input} placeholder="Gwen D. Miller" />
         </View>
-        <View style={settings.inputField}>
-          <TextMedium style={settings.label}>Nombre de usuario</TextMedium>
-          <TextInput style={settings.input} placeholder="gwen.d.miller" />
+        <View style={form.inputField}>
+          <TextMedium style={form.label}>Nombre de usuario</TextMedium>
+          <TextInput style={form.input} placeholder="gwen.d.miller" />
         </View>
-        <View style={settings.inputField}>
-          <TextMedium style={settings.label}>Correo electrónico</TextMedium>
+        <View style={form.inputField}>
+          <TextMedium style={form.label}>Correo electrónico</TextMedium>
           <TextInput
-            style={settings.input}
+            style={form.input}
             placeholder="gwen.miller@giftify.com"
           />
         </View>
-        <View style={settings.inputField}>
-          <TextMedium style={settings.label}>Número de teléfono</TextMedium>
-          <TextInput style={settings.input} placeholder="4431683881" />
+        <View style={form.inputField}>
+          <TextMedium style={form.label}>Número de teléfono</TextMedium>
+          <TextInput style={form.input} placeholder="4431683881" />
         </View>
-        <TouchableOpacity style={settings.updateBtn}>
-          <TextMedium style={settings.updateTxt}>Actualizar perfil</TextMedium>
+        <TouchableOpacity style={form.button}>
+          <TextMedium style={form.buttonTxt}>Actualizar perfil</TextMedium>
         </TouchableOpacity>
       </View>
     </View>
