@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../screens/Home';
 import Gift from '../screens/Gift';
 import Cart from '../screens/Cart';
+import Profile from '../screens/Profile/Profile';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const HomeStackNavigator = (): JSX.Element => {
       <Stack.Screen name="Home" component={Home} options={{...screenOptions}} />
       <Stack.Screen name="Gift" component={Gift} options={{...screenOptions}} />
       <Stack.Screen name="Cart" component={Cart} options={{...screenOptions}} />
+      <Stack.Screen name="Profile" component={Profile} options={{...screenOptions}} />
     </Stack.Navigator>
   );
 };

@@ -35,7 +35,7 @@ const Home = (): JSX.Element => {
           <TouchableOpacity onPress={() => navigation.push('Cart')}>
             <Image source={require(cart)} style={icon.size} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.push('Profile')}>
             <Image source={require(profile)} style={icon.profile} />
           </TouchableOpacity>
         </View>
