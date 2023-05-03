@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from './HomeStackNavigator';
 import SearchStackNavigator from './SearchStackNavigator';
-import ProfileStackNavigator from './ProfileStackNavigator';
+import HistoryStackNavigator from './HistoryStackNavigator';
 import icon from '../styles/icon';
 
 const homeActive = '../assets/icons/home-fill.png';
@@ -49,7 +49,7 @@ const NavigationTab = (): JSX.Element => {
       />
       <Tab.Screen
         name="Historial"
-        component={ProfileStackNavigator}
+        component={HistoryStackNavigator}
         options={{
           ...screenOptions,
           tabBarIcon: ({ focused }) => (
