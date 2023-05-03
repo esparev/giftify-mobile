@@ -11,25 +11,33 @@ const mastercard = '../../assets/icons/mastercard.png';
 const googlePay = '../../assets/icons/google-pay.png';
 
 const Payments = () => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   return (
     <View style={payments.main}>
       <Header title="Métodos de pago" isNestedScreen />
       {/* Payment Methods */}
       <View style={payments.methods}>
-        <TouchableOpacity style={payments.method}>
+        <TouchableOpacity
+          style={payments.method}
+          onPress={() => navigation.push('Edit Payment')}>
           <View style={payments.card}>
             <Image source={require(mastercard)} style={payments.icon} />
             <TextMedium style={payments.cardInfo}>•••• 4444</TextMedium>
           </View>
           <TextRegular style={payments.status}>Principal</TextRegular>
         </TouchableOpacity>
-        <TouchableOpacity style={payments.method}>
+        <TouchableOpacity
+          style={payments.method}
+          onPress={() => navigation.push('Edit Payment')}>
           <View style={payments.card}>
             <Image source={require(visa)} style={payments.icon} />
             <TextMedium style={payments.cardInfo}>•••• 8888</TextMedium>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={payments.method}>
+        <TouchableOpacity
+          style={payments.method}
+          onPress={() => navigation.push('Edit Payment')}>
           <View style={payments.card}>
             <Image source={require(googlePay)} style={payments.icon} />
             <TextMedium style={payments.cardInfo}>Google Pay</TextMedium>

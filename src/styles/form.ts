@@ -34,6 +34,11 @@ const settings = StyleSheet.create({
     fontSize: font.size.base,
     color: color.primary_text,
   },
+  secondaryBtn: {
+    textAlign: 'center',
+    fontSize: font.size.base,
+    color: color.primary,
+  },
 });
 
 export default settings;
