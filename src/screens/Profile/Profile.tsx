@@ -41,19 +41,25 @@ const Profile = () => {
           </View>
           <TextMedium style={profile.text}>Tus compras</TextMedium>
         </TouchableOpacity>
-        <TouchableOpacity style={profile.item}>
+        <TouchableOpacity
+          style={profile.item}
+          onPress={() => navigation.push('Payments')}>
           <View style={profile.blue}>
             <Image source={require(cardIcon)} style={profile.icon} />
           </View>
           <TextMedium style={profile.text}>Métodos de pago</TextMedium>
         </TouchableOpacity>
-        <TouchableOpacity style={profile.item}>
+        <TouchableOpacity
+          style={profile.item}
+          onPress={() => navigation.push('Addresses')}>
           <View style={profile.green}>
             <Image source={require(navIcon)} style={profile.icon} />
           </View>
           <TextMedium style={profile.text}>Direcciones de envío</TextMedium>
         </TouchableOpacity>
-        <TouchableOpacity style={profile.item}>
+        <TouchableOpacity
+          style={profile.item}
+          onPress={() => navigation.push('Notifications')}>
           <View style={profile.yellow}>
             <Image source={require(bellIcon)} style={profile.icon} />
           </View>

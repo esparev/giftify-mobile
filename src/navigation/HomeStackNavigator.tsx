@@ -5,6 +5,7 @@ import Gift from '../screens/Gift';
 import Cart from '../screens/Cart';
 import Profile from '../screens/Profile/Profile';
 import Settings from '../screens/Profile/Settings';
+import Payments from '../screens/PaymentMethod/Payments';
 import HistoryStackNavigator from './HistoryStackNavigator';
 
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ const HomeStackNavigator = (): JSX.Element => {
       <Stack.Screen name="Profile" component={Profile} options={{...screenOptions}} />
       <Stack.Screen name="Historial" component={HistoryStackNavigator} options={{...screenOptions}} />
       <Stack.Screen name="Settings" component={Settings} options={{...screenOptions}} />
+      <Stack.Screen name="Payments" component={Payments} options={{...screenOptions}} />
     </Stack.Navigator>
   );
 };
