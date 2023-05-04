@@ -5,6 +5,7 @@ import Gift from '../screens/Gift';
 import Cart from '../screens/Cart';
 import Profile from '../screens/Profile/Profile';
 import Settings from '../screens/Profile/Settings';
+import Notifications from '../screens/Profile/Notifications';
 import Payments from '../screens/PaymentMethod/Payments';
 import EditPayment from '../screens/PaymentMethod/EditPayment';
 import Addresses from '../screens/Address/Addresses';
@@ -29,6 +30,7 @@ const HomeStackNavigator = (): JSX.Element => {
       <Stack.Screen name="Profile" component={Profile} options={{...screenOptions}} />
       <Stack.Screen name="Historial" component={HistoryStackNavigator} options={{...screenOptions}} />
       <Stack.Screen name="Settings" component={Settings} options={{...screenOptions}} />
+      <Stack.Screen name="Notifications" component={Notifications} options={{...screenOptions}} />
       <Stack.Screen name="Payments" component={Payments} options={{...screenOptions}} />
       <Stack.Screen name="Edit Payment" component={EditPayment} options={{...screenOptions}} />
       <Stack.Screen name="Addresses" component={Addresses} options={{...screenOptions}} />
