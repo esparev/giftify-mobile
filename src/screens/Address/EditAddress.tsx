@@ -4,12 +4,12 @@ import { TouchableOpacity, View, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextMedium } from '../../components/CustomText';
 import Header from '../../components/Header';
-import editAddress from './styles/editAddress';
+import address from './styles/address';
 import form from '../../styles/form';
 
 const EditAddress = () => {
   return (
-    <View style={editAddress.main}>
+    <View style={address.main}>
       <Header title="Dirección de envío" isNestedScreen />
       {/* Form */}
       <View style={form.form}>

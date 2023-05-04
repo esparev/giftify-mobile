@@ -55,7 +55,9 @@ const Addresses = () => {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={addresses.address}>
+        <TouchableOpacity
+          style={addresses.address}
+          onPress={() => navigation.push('Add Address')}>
           <TextMedium style={addresses.addPayment}>
             Agregar dirección de envío
           </TextMedium>
