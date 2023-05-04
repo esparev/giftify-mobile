@@ -4,9 +4,23 @@ import font from './font';
 
 const settings = StyleSheet.create({
   form: {
+    width: '100%',
     rowGap: 16,
   },
+  row: {
+    width: '100%',
+    columnGap: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   inputField: {
+    width: '100%',
+    rowGap: 8,
+  },
+  halfInputField: {
+    flex: 1,
+    width: '100%',
     rowGap: 8,
   },
   label: {

@@ -20,7 +20,9 @@ const EditPayment = () => {
         <TouchableOpacity style={form.button}>
           <TextMedium style={form.buttonTxt}>Actualizar</TextMedium>
         </TouchableOpacity>
-        <TextMedium style={form.secondaryBtn}>Eliminar tarjeta</TextMedium>
+        <TouchableOpacity>
+          <TextMedium style={form.secondaryBtn}>Eliminar tarjeta</TextMedium>
+        </TouchableOpacity>
       </View>
     </View>
   );
