@@ -43,6 +43,13 @@ const search = StyleSheet.create({
     fontSize: font.size.lg,
     color: color.primary_text,
   },
+  categories: {
+    width: '100%',
+    rowGap: 16,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 export default search;
