@@ -7,8 +7,11 @@ import history from './styles/history';
 
 const History = () => {
   return (
-    <View>
+    <View style={history.main}>
       <Header title="History" />
+      <HistoryItem />
+      <HistoryItem />
+      <HistoryItem />
     </View>
   );
 };
