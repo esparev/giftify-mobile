@@ -3,6 +3,7 @@
  */
 const color = {
   primary: '#A706C1',
+  primary30: '#A706C130',
   stars: '#FCB500',
   danger: '#F32929',
   danger30: '#F3292930',

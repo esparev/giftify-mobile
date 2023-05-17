@@ -62,6 +62,11 @@ const profile = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: color.info30,
   },
+  purple: {
+    padding: 4,
+    borderRadius: 8,
+    backgroundColor: color.primary30,
+  },
   text: {
     fontSize: font.size.base,
     color: color.primary_text,

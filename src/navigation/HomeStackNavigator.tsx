@@ -20,7 +20,6 @@ const screenOptions = { headerShown: false };
 
 /**
  * HomeStackNavigator component for the home stack navigation
- * @returns JSX.Element
  */
 const HomeStackNavigator = (): JSX.Element => {
   return (

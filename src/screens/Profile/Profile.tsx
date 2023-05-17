@@ -10,6 +10,7 @@ const shopBagIcon = '../../assets/icons/shopping-bag-red.png';
 const cardIcon = '../../assets/icons/creditcard-blue.png';
 const navIcon = '../../assets/icons/navigation-green.png';
 const bellIcon = '../../assets/icons/bell-yellow.png';
+const logoutIcon = '../../assets/icons/logout-purple.png';
 
 const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -64,6 +65,14 @@ const Profile = () => {
             <Image source={require(bellIcon)} style={profile.icon} />
           </View>
           <TextMedium style={profile.text}>Notificaciones</TextMedium>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={profile.item}
+          onPress={() => navigation.push('Notifications')}>
+          <View style={profile.purple}>
+            <Image source={require(logoutIcon)} style={profile.icon} />
+          </View>
+          <TextMedium style={profile.text}>Cerrar sesión</TextMedium>
         </TouchableOpacity>
       </View>
     </View>
