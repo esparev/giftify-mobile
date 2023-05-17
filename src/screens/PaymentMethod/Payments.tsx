@@ -43,7 +43,9 @@ const Payments = () => {
             <TextMedium style={payments.cardInfo}>Google Pay</TextMedium>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={payments.method}>
+        <TouchableOpacity
+          style={payments.method}
+          onPress={() => navigation.push('Add Payment')}>
           <TextMedium style={payments.addPayment}>
             Agregar método de pago
           </TextMedium>

@@ -20,8 +20,9 @@ const settings = StyleSheet.create({
   },
   halfInputField: {
     flex: 1,
-    width: '100%',
     rowGap: 8,
+    width: '100%',
+    alignSelf: 'flex-end',
   },
   label: {
     fontSize: font.size.base,

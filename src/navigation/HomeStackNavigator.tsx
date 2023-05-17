@@ -7,6 +7,7 @@ import Profile from '../screens/Profile/Profile';
 import Settings from '../screens/Profile/Settings';
 import Notifications from '../screens/Profile/Notifications';
 import Payments from '../screens/PaymentMethod/Payments';
+import AddPayment from '../screens/PaymentMethod/AddPayment';
 import EditPayment from '../screens/PaymentMethod/EditPayment';
 import Addresses from '../screens/Address/Addresses';
 import AddAddress from '../screens/Address/AddAddress';
@@ -32,6 +33,7 @@ const HomeStackNavigator = (): JSX.Element => {
       <Stack.Screen name="Settings" component={Settings} options={{...screenOptions}} />
       <Stack.Screen name="Notifications" component={Notifications} options={{...screenOptions}} />
       <Stack.Screen name="Payments" component={Payments} options={{...screenOptions}} />
+      <Stack.Screen name="Add Payment" component={AddPayment} options={{...screenOptions}} />
       <Stack.Screen name="Edit Payment" component={EditPayment} options={{...screenOptions}} />
       <Stack.Screen name="Addresses" component={Addresses} options={{...screenOptions}} />
       <Stack.Screen name="Add Address" component={AddAddress} options={{...screenOptions}} />
