@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { GiftListProps } from '../../@types/index';
 import GiftItem from '../Items/GiftItem';
 
 const GiftList = (props: GiftListProps): JSX.Element => {
