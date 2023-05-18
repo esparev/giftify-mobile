@@ -29,6 +29,12 @@ const login = StyleSheet.create({
     textAlign: 'center',
     color: color.primary,
   },
+  processBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    columnGap: 12,
+  },
   mainBtn: {
     width: '100%',
     borderRadius: 8,
@@ -38,6 +44,9 @@ const login = StyleSheet.create({
   mainTxt: {
     textAlign: 'center',
     color: color.primary_text,
+  },
+  formErr: {
+    color: color.danger,
   },
 });
 

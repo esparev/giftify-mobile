@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import StartStackNavigator from './src/navigation/StartStackNavigator';
+import { AuthProvider } from './src/context/AuthContext';
 import appTheme from './src/styles/appTheme';
 import color from './src/styles/color';
 
@@ -21,7 +22,9 @@ const App = (): JSX.Element => {
 
       <ApolloProvider client={client}>
         <NavigationContainer theme={appTheme}>
-          <StartStackNavigator />
+          <AuthProvider>
+            <StartStackNavigator />
+          </AuthProvider>
         </NavigationContainer>
       </ApolloProvider>
     </>

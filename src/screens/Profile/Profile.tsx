@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextMedium, TextSemiBold } from '../../components/CustomText';
 import Header from '../../components/Header';
 import profile from './styles/profile';
@@ -11,6 +12,14 @@ const cardIcon = '../../assets/icons/creditcard-blue.png';
 const navIcon = '../../assets/icons/navigation-green.png';
 const bellIcon = '../../assets/icons/bell-yellow.png';
 const logoutIcon = '../../assets/icons/logout-purple.png';
+
+const removeData = async () => {
+  try {
+    await AsyncStorage.removeItem('@user_data');
+  } catch (e) {
+    return;
+  }
+};
 
 const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -68,7 +77,10 @@ const Profile = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={profile.item}
-          onPress={() => navigation.push('Login')}>
+          onPress={() => {
+            removeData();
+            navigation.push('Login');
+          }}>
           <View style={profile.purple}>
             <Image source={require(logoutIcon)} style={profile.icon} />
           </View>

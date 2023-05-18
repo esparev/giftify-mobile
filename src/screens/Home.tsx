@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import { gql, useQuery } from '@apollo/client';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
@@ -31,7 +31,7 @@ const useHome = () => {
 const Home = (): JSX.Element => {
   const { loading, error, data } = useHome();
   const navigation = useNavigation<StackNavigationProp<any>>();
-
+  
   return (
     <View style={home.main}>
       {/* Header */}
