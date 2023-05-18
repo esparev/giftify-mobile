@@ -4,6 +4,7 @@ import font from '../../styles/font';
 
 const header = StyleSheet.create({
   container: {
+    zIndex: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

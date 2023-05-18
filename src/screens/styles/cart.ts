@@ -40,6 +40,25 @@ const cart = StyleSheet.create({
     fontSize: font.size.base,
     color: color.primary_text,
   },
+  emptyCart: {
+    top: -60,
+    rowGap: -60,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyCartImg: {
+    width: '40%',
+    resizeMode: 'contain',
+  },
+  emptyInfo: {
+    alignItems: 'center',
+  },
+  emptyCartTitle: {
+    fontSize: 24,
+    color: color.primary_text,
+  },
+  emptyCartText: {},
 });
 
 export default cart;
