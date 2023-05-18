@@ -40,7 +40,11 @@ const removeData = async () => {
 };
 
 const Profile = (props: ProfileScreenProps) => {
-  const { route: { params: { username } } } = props;
+  const {
+    route: {
+      params: { username },
+    },
+  } = props;
   const { loading, error, data } = useProfile(username);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
@@ -87,7 +91,7 @@ const Profile = (props: ProfileScreenProps) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={profile.item}
-          onPress={() => navigation.push('Payments')}>
+          onPress={() => navigation.push('Payments', { userId: user?.id })}>
           <View style={profile.blue}>
             <Image source={require(cardIcon)} style={profile.icon} />
           </View>

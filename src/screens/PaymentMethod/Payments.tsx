@@ -1,13 +1,16 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
+import { UserIdProps } from '../../@types';
 import {
   TextRegular,
   TextMedium,
   TextSemiBold,
 } from '../../components/CustomText';
 import Header from '../../components/Header';
+import PaymentList from '../../components/Lists/PaymentList';
 import payments from './styles/payments';
 
 const visa = '../../assets/icons/visa.png';
@@ -15,10 +18,25 @@ const mastercard = '../../assets/icons/mastercard.png';
 const googlePay = '../../assets/icons/google-pay.png';
 const emptyPayment = '../../assets/icons/creditcard-stack.png';
 
-const Payments = () => {
-  const navigation = useNavigation<StackNavigationProp<any>>();
+const usePayments = (userId: string) => {
+  const query = gql`
+    query GetPayments($userId: UUID!) {
+      paymentMethods(userId: $userId) {
+        id
+        alias
+        last4
+        network
+      }
+    }
+  `;
+  return useQuery(query, { variables: { userId: userId } });
+};
 
-  const isEmptyPayment = true;
+const Payments = (props: UserIdProps) => {
+  const { route: { params: { userId } } } = props; // prettier-ignore
+  const { loading, error, data } = usePayments(userId);
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const isEmptyPayment = data?.paymentMethods.length === 0;
 
   return (
     <View style={payments.main}>
@@ -46,32 +64,8 @@ const Payments = () => {
           </View>
         </View>
       ) : (
-        <View style={payments.methods}>
-          <TouchableOpacity
-            style={payments.method}
-            onPress={() => navigation.push('Edit Payment')}>
-            <View style={payments.card}>
-              <Image source={require(mastercard)} style={payments.icon} />
-              <TextMedium style={payments.cardInfo}>•••• 4444</TextMedium>
-            </View>
-            <TextRegular style={payments.status}>Principal</TextRegular>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={payments.method}
-            onPress={() => navigation.push('Edit Payment')}>
-            <View style={payments.card}>
-              <Image source={require(visa)} style={payments.icon} />
-              <TextMedium style={payments.cardInfo}>•••• 8888</TextMedium>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={payments.method}
-            onPress={() => navigation.push('Edit Payment')}>
-            <View style={payments.card}>
-              <Image source={require(googlePay)} style={payments.icon} />
-              <TextMedium style={payments.cardInfo}>Google Pay</TextMedium>
-            </View>
-          </TouchableOpacity>
+        <View>
+          <PaymentList payments={data?.paymentMethods} />
           <TouchableOpacity
             style={payments.method}
             onPress={() => navigation.push('Add Payment')}>
