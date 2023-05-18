@@ -35,10 +35,17 @@ export interface GiftListProps {
 
 type RootStackParamList = {
   Gift: { id: string };
+  Profile: {username: string};
+  Settings: {username: string};
 };
 
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
+type ProfileRouteProp = RouteProp<RootStackParamList, 'Profile'>;
+type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>;
 
 export interface GiftScreenProps {
   route: GiftRouteProp;
+}
+export interface ProfileScreenProps {
+  route: ProfileRouteProp | SettingsRouteProp;
 }
