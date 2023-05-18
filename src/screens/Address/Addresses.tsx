@@ -59,7 +59,9 @@ const Addresses = (props: UserIdProps) => {
             </TextRegular>
             <TouchableOpacity
               style={addresses.btn}
-              onPress={() => navigation.push('Add Address')}>
+              onPress={() =>
+                navigation.push('Add Address', { userId: userId })
+              }>
               <TextMedium style={addresses.btnText}>
                 Agregar dirección de envío
               </TextMedium>
@@ -71,7 +73,7 @@ const Addresses = (props: UserIdProps) => {
           <AddressList addresses={data?.addresses} />
           <TouchableOpacity
             style={addresses.address}
-            onPress={() => navigation.push('Add Address')}>
+            onPress={() => navigation.push('Add Address', { userId: userId })}>
             <TextMedium style={addresses.addPayment}>
               Agregar dirección de envío
             </TextMedium>
