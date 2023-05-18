@@ -65,8 +65,14 @@ const Home = (): JSX.Element => {
           <TouchableOpacity onPress={() => navigation.push('Cart')}>
             <Image source={require(cart)} style={icon.size} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.push('Profile')}>
-            <Image source={loading ? require(profile) : { uri: avatar }} style={icon.profile} />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.push('Profile', { username: userUsername })
+            }>
+            <Image
+              source={loading ? require(profile) : { uri: avatar }}
+              style={icon.profile}
+            />
           </TouchableOpacity>
         </View>
       </View>

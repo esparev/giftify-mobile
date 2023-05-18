@@ -12,13 +12,23 @@ const profile = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  profileImg: {
+  profileContainer: {
     width: 80,
     height: 80,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.primary,
+  },
+  profileImg: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+  },
+  profileTxt: {
+    textAlign: 'center',
+    fontSize: 32,
+    color: color.primary_text,
   },
   info: {},
   name: {
