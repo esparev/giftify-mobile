@@ -1,19 +1,46 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
+import Header from '../components/Header';
 import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
 import gift from './styles/gift';
 
-import gifts from '../mocks/gifts';
-const giftItem = gifts[0];
+type RootStackParamList = {
+  Gift: { id: string };
+};
+
+type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
+
+interface GiftProps {
+  route: GiftRouteProp;
+}
 
 const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
 
-const Gift = () => {
+const useGift = (id: string) => {
+  const query = gql`
+    query GetGift($id: UUID!) {
+      gift(id: $id) {
+        name
+        image
+        rating
+        price
+        description
+      }
+    }
+  `;
+  return useQuery(query, { variables: { id: id } });
+};
+
+const Gift = (props: GiftProps) => {
+  const { route: { params: { id } } } = props;
+
+  const { loading, error, data } = useGift(id);
   const [qty, setQty] = useState(1);
-  const [total, setTotal] = useState(giftItem.price);
+  const [total, setTotal] = useState(data?.gift.price);
   const [activeBtn, setActiveBtn] = useState(true);
 
   return (
@@ -26,24 +53,24 @@ const Gift = () => {
         <View style={gift.details}>
           {/* Image */}
           <Image
-            source={{ uri: giftItem.image }}
+            source={{ uri: data?.gift?.image }}
             defaultSource={require(defaultGift)}
             style={gift.image}
           />
           {/* Info */}
           <View style={gift.info}>
-            <TextSemiBold style={gift.name}>{giftItem.name}</TextSemiBold>
+            <TextSemiBold style={gift.name}>{data?.gift?.name}</TextSemiBold>
             {/* Meta */}
             <View style={gift.meta}>
               <Image source={require(star)} style={gift.ratingStar} />
               <TextRegular style={gift.metaText}>
-                {giftItem.rating} | Buen empaque
+                {data?.gift?.rating} | Buen empaque
               </TextRegular>
             </View>
           </View>
           {/* Description */}
           <TextRegular style={gift.description}>
-            {giftItem.description}
+            {data?.gift?.description}
           </TextRegular>
         </View>
         {/* Type */}
@@ -85,13 +112,13 @@ const Gift = () => {
           <View style={gift.qtyModifier}>
             <TouchableOpacity
               style={gift.removeQty}
-              onPress={() => removeQty(qty, giftItem.price, setQty, setTotal)}>
+              onPress={() => removeQty(qty, data?.gift?.price, setQty, setTotal)}>
               <TextSemiBold style={gift.qtyItems}>-</TextSemiBold>
             </TouchableOpacity>
             <TextSemiBold style={gift.qtyItems}>{qty}</TextSemiBold>
             <TouchableOpacity
               style={gift.addQty}
-              onPress={() => addQty(qty, giftItem.price, setQty, setTotal)}>
+              onPress={() => addQty(qty, data?.gift?.price, setQty, setTotal)}>
               <TextSemiBold style={gift.qtyItems}>+</TextSemiBold>
             </TouchableOpacity>
           </View>

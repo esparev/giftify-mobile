@@ -1,19 +1,35 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { TouchableOpacity, View, Image } from 'react-native';
+import { TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
 import icon from '../styles/icon';
 import home from './styles/home';
-import gifts from '../mocks/gifts';
 
 const mapMarker = '../assets/icons/map-marker-area.png';
 const cart = '../assets/icons/cart.png';
 const profile = '../assets/static/profile.png';
 const promotion = '../assets/static/promotion.png';
 
+const useHome = () => {
+  const query = gql`
+    query GetHome {
+      gifts {
+        id
+        name
+        image
+        rating
+        price
+      }
+    }
+  `;
+  return useQuery(query);
+};
+
 const Home = (): JSX.Element => {
+  const { loading, error, data } = useHome();
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   return (
@@ -47,7 +63,11 @@ const Home = (): JSX.Element => {
       {/* Categories */}
       <View></View>
       {/* Gift Items */}
-      <GiftList gifts={gifts} />
+      {loading ? (
+        <ActivityIndicator color="#ffffff" />
+      ) : (
+        <GiftList gifts={data?.gifts} />
+      )}
     </View>
   );
 };

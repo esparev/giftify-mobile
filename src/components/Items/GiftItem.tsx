@@ -14,7 +14,7 @@ const GiftItem = (props: { gift: GiftProps }): JSX.Element => {
   return (
     <TouchableOpacity
       style={giftItem.card}
-      onPress={() => navigation.push('Gift')}>
+      onPress={() => navigation.push('Gift', { id: props.gift.id })}>
       <Image
         defaultSource={{ uri: defaultGift }}
         source={{ uri: props.gift.image }}
