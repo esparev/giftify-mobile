@@ -2,21 +2,44 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
+import { UserIdProps } from '../../@types';
 import {
   TextRegular,
   TextMedium,
   TextSemiBold,
 } from '../../components/CustomText';
 import Header from '../../components/Header';
+import AddressList from '../../components/Lists/AddressList';
 import addresses from './styles/addresses';
 
-const navIcon = '../../assets/icons/navigation.png';
 const emptyAddress = '../../assets/icons/home-detail.png';
 
-const Addresses = () => {
+const useAddresses = (userId: string) => {
+  const query = gql`
+    query GetAddresses($userId: UUID!) {
+      addresses(userId: $userId) {
+        id
+        streetName
+        streetName
+        streetNumber
+        postalCode
+        city
+        area
+        locality
+        country
+      }
+    }
+  `;
+  return useQuery(query, { variables: { userId: userId } });
+};
+
+const Addresses = (props: UserIdProps) => {
+  const { route: { params: { userId } } } = props; // prettier-ignore
+  const { loading, error, data } = useAddresses(userId);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const isEmptyAddress = true;
+  const isEmptyAddress = false;
 
   return (
     <View style={addresses.main}>
@@ -37,55 +60,15 @@ const Addresses = () => {
             <TouchableOpacity
               style={addresses.btn}
               onPress={() => navigation.push('Add Address')}>
-              <TextRegular style={addresses.btnText}>
+              <TextMedium style={addresses.btnText}>
                 Agregar dirección de envío
-              </TextRegular>
+              </TextMedium>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
-        <View style={addresses.addresses}>
-          <TouchableOpacity
-            style={addresses.address}
-            onPress={() => navigation.push('Edit Address')}>
-            <View style={addresses.item}>
-              <Image source={require(navIcon)} style={addresses.icon} />
-              <View style={addresses.info}>
-                <TextMedium style={addresses.stName}>
-                  Gral. Negrete 33
-                </TextMedium>
-                <TextRegular>Centro, 58600</TextRegular>
-                <TextRegular>Zacapu, Michoacán</TextRegular>
-              </View>
-            </View>
-            <TextRegular style={addresses.status}>Principal</TextRegular>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={addresses.address}
-            onPress={() => navigation.push('Edit Address')}>
-            <View style={addresses.item}>
-              <Image source={require(navIcon)} style={addresses.icon} />
-              <View style={addresses.info}>
-                <TextMedium style={addresses.stName}>
-                  Guadalupe Victoria 11
-                </TextMedium>
-                <TextRegular>Centro, 58570</TextRegular>
-                <TextRegular>Panindicuaro, Michoacán</TextRegular>
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={addresses.address}
-            onPress={() => navigation.push('Edit Address')}>
-            <View style={addresses.item}>
-              <Image source={require(navIcon)} style={addresses.icon} />
-              <View>
-                <TextMedium style={addresses.stName}>Berlin 21</TextMedium>
-                <TextRegular>Centro, 58060</TextRegular>
-                <TextRegular>Morelia, Michoacán</TextRegular>
-              </View>
-            </View>
-          </TouchableOpacity>
+        <View>
+          <AddressList addresses={data?.addresses} />
           <TouchableOpacity
             style={addresses.address}
             onPress={() => navigation.push('Add Address')}>

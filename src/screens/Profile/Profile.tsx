@@ -20,6 +20,7 @@ const useProfile = (username: string) => {
   const query = gql`
     query GetProfile($username: String!) {
       user(username: $username) {
+        id
         username
         firstName
         lastName
@@ -54,7 +55,10 @@ const Profile = (props: ProfileScreenProps) => {
         onPress={() => navigation.push('Settings', { username: username })}>
         {/* Profile Image */}
         {user?.avatar ? (
-          <Image source={loading ? require(defaultProfile) : { uri: user?.avatar }} style={profile.profileImg} />
+          <Image
+            source={loading ? require(defaultProfile) : { uri: user?.avatar }}
+            style={profile.profileImg}
+          />
         ) : (
           <View style={profile.profileContainer}>
             <TextSemiBold style={profile.profileTxt}>
@@ -91,7 +95,7 @@ const Profile = (props: ProfileScreenProps) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={profile.item}
-          onPress={() => navigation.push('Addresses')}>
+          onPress={() => navigation.push('Addresses', { userId: user?.id })}>
           <View style={profile.green}>
             <Image source={require(navIcon)} style={profile.icon} />
           </View>
