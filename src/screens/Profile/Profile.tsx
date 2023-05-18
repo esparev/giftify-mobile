@@ -68,7 +68,7 @@ const Profile = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={profile.item}
-          onPress={() => navigation.push('Notifications')}>
+          onPress={() => navigation.push('Login')}>
           <View style={profile.purple}>
             <Image source={require(logoutIcon)} style={profile.icon} />
           </View>
