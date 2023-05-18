@@ -28,6 +28,16 @@ export interface GiftProps {
   description: string | undefined;
   createdAt: string | undefined;
 }
+export interface PaymentProps {
+  id: string | undefined;
+  alias: string | undefined;
+  cardholderName: string;
+  last4: string;
+  network: string | undefined;
+  expiryMonth: number | undefined;
+  expiryYear: number | undefined;
+  createdAt: string | undefined;
+}
 export interface UserProps {
   id: string;
   username: string;
@@ -44,15 +54,20 @@ export interface AddressListProps {
 export interface GiftListProps {
   gifts: GiftProps[];
 }
+export interface PaymentListProps {
+  payments: PaymentProps[];
+}
 
 type RootStackParamList = {
+  Addresses: { userId: string };
   Gift: { id: string };
+  Payments: { userId: string };
   Profile: { username: string };
   Settings: { username: string };
-  Addresses: { userId: string };
 };
 type AddressRouteProp = RouteProp<RootStackParamList, 'Addresses'>;
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
+type PaymentRouteProp = RouteProp<RootStackParamList, 'Payments'>;
 type ProfileRouteProp = RouteProp<RootStackParamList, 'Profile'>;
 type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>;
 export interface GiftScreenProps {
@@ -62,5 +77,5 @@ export interface ProfileScreenProps {
   route: ProfileRouteProp | SettingsRouteProp;
 }
 export interface UserIdProps {
-  route: AddressRouteProp;
+  route: AddressRouteProp | PaymentRouteProp;
 }
