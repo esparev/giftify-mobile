@@ -8,6 +8,7 @@ const icon = StyleSheet.create({
   profile: {
     width: 40,
     height: 40,
+    borderRadius: 100,
   },
 });
 
