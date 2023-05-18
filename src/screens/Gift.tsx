@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
 import { gql, useQuery } from '@apollo/client';
+import { GiftScreenProps } from '../@types/index';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
 import gift from './styles/gift';
-
-type RootStackParamList = {
-  Gift: { id: string };
-};
-
-type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
-
-interface GiftProps {
-  route: GiftRouteProp;
-}
 
 const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
@@ -35,7 +25,7 @@ const useGift = (id: string) => {
   return useQuery(query, { variables: { id: id } });
 };
 
-const Gift = (props: GiftProps) => {
+const Gift = (props: GiftScreenProps) => {
   const { route: { params: { id } } } = props;
 
   const { loading, error, data } = useGift(id);

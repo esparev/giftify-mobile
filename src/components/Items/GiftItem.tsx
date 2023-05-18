@@ -2,6 +2,7 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { GiftProps } from '../../@types/index';
 import { TextRegular, TextSemiBold } from '../CustomText';
 import giftItem from './styles/giftItem';
 
