@@ -1,5 +1,24 @@
 import { RouteProp } from '@react-navigation/native';
 
+export interface UserProps {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  avatar: string;
+}
+
+export interface AuthContextProps {
+  user: UserProps | undefined;
+  token: string | undefined;
+}
+
+export interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
 export interface GiftProps {
   id: string | undefined;
   name: string;
