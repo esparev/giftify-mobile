@@ -31,8 +31,8 @@ export interface GiftProps {
 export interface PaymentProps {
   id: string | undefined;
   alias: string | undefined;
-  cardholderName: string;
-  last4: string;
+  cardholderName: string | undefined;
+  last4: string | undefined;
   network: string | undefined;
   expiryMonth: number | undefined;
   expiryYear: number | undefined;
@@ -63,6 +63,7 @@ type RootStackParamList = {
   AddPayment: { userId: string };
   Addresses: { userId: string };
   EditAddress: { address: AddressProps };
+  EditPayment: { payment: PaymentProps };
   Gift: { id: string };
   Payments: { userId: string };
   Profile: { username: string };
@@ -72,6 +73,7 @@ type AddAddressRouteProp = RouteProp<RootStackParamList, 'AddAddress'>;
 type AddPaymentRouteProp = RouteProp<RootStackParamList, 'AddPayment'>;
 type AddressesRouteProp = RouteProp<RootStackParamList, 'Addresses'>;
 type EditAddressRouteProp = RouteProp<RootStackParamList, 'EditAddress'>;
+type EditPaymentRouteProp = RouteProp<RootStackParamList, 'EditPayment'>;
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
 type PaymentRouteProp = RouteProp<RootStackParamList, 'Payments'>;
 type ProfileRouteProp = RouteProp<RootStackParamList, 'Profile'>;
@@ -84,6 +86,9 @@ export interface ProfileScreenProps {
 }
 export interface EditAddressScreenProps {
   route: EditAddressRouteProp;
+}
+export interface EditPaymentScreenProps {
+  route: EditPaymentRouteProp;
 }
 export interface UserIdProps {
   route:
