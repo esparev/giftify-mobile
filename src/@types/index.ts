@@ -19,6 +19,13 @@ export interface AddressProps {
   country: string | undefined;
   createdAt: string | undefined;
 }
+export interface CategoryProps {
+  id: string | undefined;
+  name: string;
+  hexColor: string;
+  image: string;
+  createdAt: string | undefined;
+}
 export interface GiftProps {
   id: string | undefined;
   name: string;
@@ -50,6 +57,9 @@ export interface UserProps {
 
 export interface AddressListProps {
   addresses: AddressProps[];
+}
+export interface CategoryListProps {
+  categories: CategoryProps[];
 }
 export interface GiftListProps {
   gifts: GiftProps[];
