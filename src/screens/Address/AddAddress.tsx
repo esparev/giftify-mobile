@@ -35,7 +35,7 @@ const validationSchema = () => {
   };
 };
 
-function extractStreetDetails(address: string) {
+const extractStreetDetails = (address: string) => {
   const regex = /^(.*\b(?:\w+\W+)*\w+)\s+(\d+)\s*$/; // Matches the street name followed by the street number at the end
   const match = address.match(regex);
   if (match) {

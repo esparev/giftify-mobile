@@ -56,7 +56,9 @@ const Payments = (props: UserIdProps) => {
             </TextRegular>
             <TouchableOpacity
               style={payments.btn}
-              onPress={() => navigation.push('Add Payment')}>
+              onPress={() =>
+                navigation.push('Add Payment', { userId: userId })
+              }>
               <TextRegular style={payments.btnText}>
                 Agregar método de pago
               </TextRegular>
@@ -68,7 +70,7 @@ const Payments = (props: UserIdProps) => {
           <PaymentList payments={data?.paymentMethods} />
           <TouchableOpacity
             style={payments.method}
-            onPress={() => navigation.push('Add Payment')}>
+            onPress={() => navigation.push('Add Payment', { userId: userId })}>
             <TextMedium style={payments.addPayment}>
               Agregar método de pago
             </TextMedium>
