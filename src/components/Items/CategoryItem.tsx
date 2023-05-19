@@ -1,25 +1,24 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, Image } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { CategoryProps } from '../../@types';
 import { TextSemiBold } from '../CustomText';
 import categoryItem from './styles/categoryItem';
 
-type CategoryItemProps = {
-  name: string;
-  image: string;
-  color: string;
-};
-
-const CategoryItem = ({
-  name,
-  image,
-  color,
-}: CategoryItemProps): JSX.Element => {
+const CategoryItem = (props: { category: CategoryProps }): JSX.Element => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  
   return (
-    <TouchableOpacity style={[categoryItem.card, { backgroundColor: color }]}>
-      <TextSemiBold style={categoryItem.name}>{name}</TextSemiBold>
-      <Image source={{ uri: image }} style={categoryItem.image} />
+    <TouchableOpacity
+      style={[categoryItem.card, { backgroundColor: props.category.hexColor }]}>
+      <TextSemiBold style={categoryItem.name}>
+        {props.category.name}
+      </TextSemiBold>
+      <Image
+        source={{ uri: props.category.image }}
+        style={categoryItem.image}
+      />
     </TouchableOpacity>
   );
 };

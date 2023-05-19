@@ -4,6 +4,7 @@ import font from '../../styles/font';
 
 const search = StyleSheet.create({
   main: {
+    height: '100%',
     padding: 24,
     rowGap: 24,
   },

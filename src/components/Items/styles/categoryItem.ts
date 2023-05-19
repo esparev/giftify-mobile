@@ -8,6 +8,7 @@ const categoryItem = StyleSheet.create({
     padding: 16,
     paddingRight: 0,
     borderRadius: 8,
+    marginBottom: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
