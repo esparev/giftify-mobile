@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import {
-  TouchableOpacity,
-  View,
-  Image,
-  TextInput,
-  ActivityIndicator,
-} from 'react-native';
+import { TouchableOpacity, View, Image, TextInput, ActivityIndicator } from 'react-native'; // prettier-ignore
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { AuthContextProps } from '../@types';
+import { storeData } from '../storage';
 import useAuth from '../hooks/useAuth';
 import { TextMedium } from '../components/CustomText';
 import form from '../styles/form';
@@ -38,13 +31,6 @@ const validationSchema = () => {
   };
 };
 
-const storeData = async (value: AuthContextProps) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('@user_data', jsonValue);
-  } catch (e) {}
-};
-
 const Login = () => {
   const [error, setError] = useState(false);
   const [logging, setLogging] = useState(false);
@@ -58,11 +44,10 @@ const Login = () => {
         const user = res.data;
         login(user);
         storeData(user);
-        navigation.navigate('Home');
         setLogging(false);
+        navigation.navigate('Home');
       })
       .catch(err => {
-        console.log(err);
         setError(true);
         setLogging(false);
       });
