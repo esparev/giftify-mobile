@@ -32,6 +32,7 @@ const EditPayment = (props: EditPaymentScreenProps) => {
 
   const handleDelete = () => {
     deletePayment({ variables: { id: payment.id } });
+    navigation.goBack();
   };
 
   return (

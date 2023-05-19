@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { EditAddressScreenProps } from '../../@types';
-import { updateAddressMutation } from '../../graphql/addressMutation';
+import { updateAddressMutation, deleteAddressMutation } from '../../graphql/addressMutation'; // prettier-ignore
 import { TextMedium } from '../../components/CustomText';
 import DeleteAddress from '../../modals/DeleteModal';
 import Header from '../../components/Header';
@@ -19,6 +19,8 @@ const EditAddress = (props: EditAddressScreenProps) => {
   const { route: { params: { address } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
   const [updateAddress, { data, loading, error }] = useMutation(updateAddressMutation); // prettier-ignore
+  const [deleteAddress] = useMutation(deleteAddressMutation);
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const formik = useFormik({
     initialValues: initialValues(address),
@@ -28,8 +30,14 @@ const EditAddress = (props: EditAddressScreenProps) => {
       data.streetName = streetDetails!.streetName;
       data.streetNumber = streetDetails!.streetNumber;
       updateAddress({ variables: { id: address.id, data: data } });
+      navigation.goBack();
     },
   });
+
+  const handleDelete = () => {
+    deleteAddress({ variables: { id: address.id } });
+    navigation.goBack();
+  };
 
   return (
     <View>
@@ -110,6 +118,7 @@ const EditAddress = (props: EditAddressScreenProps) => {
         description="Eliminar esta dirección no afectará su historial de compras. Esta acción no puede deshacerse."
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        onPress={handleDelete}
       />
     </View>
   );
