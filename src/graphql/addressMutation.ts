@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const addressMutation = gql`
+export const createAddressMutation = gql`
   mutation CreateAddress($data: CreateAddress!) {
     createAddress(data: $data) {
       id
@@ -8,4 +8,10 @@ const addressMutation = gql`
   }
 `;
 
-export default addressMutation;
+export const updateAddressMutation = gql`
+  mutation UpdateAddress($id: UUID!, $data: UpdateAddress!) {
+    updateAddress(id: $id, data: $data) {
+      id
+    }
+  }
+`;

@@ -14,7 +14,9 @@ const AddressItem = (props: { address: AddressProps }): JSX.Element => {
   return (
     <TouchableOpacity
       style={addressItem.address}
-      onPress={() => navigation.push('Edit Address')}>
+      onPress={() =>
+        navigation.push('Edit Address', { address: props.address })
+      }>
       <View style={addressItem.item}>
         <Image source={require(navIcon)} style={addressItem.icon} />
         <View style={addressItem.info}>

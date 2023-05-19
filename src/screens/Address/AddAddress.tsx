@@ -6,17 +6,16 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserIdProps } from '../../@types';
-import addressMutation from '../../graphql/addressMutation';
+import { createAddressMutation } from '../../graphql/addressMutation';
 import { TextMedium } from '../../components/CustomText';
 import Header from '../../components/Header';
+import { initialValues, validationSchema, extractStreetDetails } from '../../utils/functions/addAddressUtils'; // prettier-ignore
 import address from './styles/address';
 import form from '../../styles/form';
-import { initialValues, validationSchema, extractStreetDetails } from '../../utils/functions/addAddressUtils'; // prettier-ignore
 
 const AddAddress = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
-  const [createAddress, { data, loading, error }] =
-    useMutation(addressMutation);
+  const [createAddress, { data, loading, error }] = useMutation(createAddressMutation); // prettier-ignore
 
   const formik = useFormik({
     initialValues: initialValues(),
