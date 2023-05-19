@@ -15,3 +15,9 @@ export const updatePaymentMutation = gql`
     }
   }
 `;
+
+export const deletePaymentMutation = gql`
+  mutation DeletePayment($id: UUID!) {
+    deletePaymentMethod(id: $id)
+  }
+`;

@@ -15,3 +15,9 @@ export const updateAddressMutation = gql`
     }
   }
 `;
+
+export const deleteAddressMutation = gql`
+  mutation DeleteAddress($id: UUID!) {
+    deleteAddress(id: $id)
+  }
+`;
