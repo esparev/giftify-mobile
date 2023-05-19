@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { getData } from '../storage';
 import GetStarted from '../screens/GetStarted';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import NavigationTab from './NavigationTab';
-import getData from '../utils/functions/getData';
 
 const Stack = createStackNavigator();
 
@@ -19,10 +19,7 @@ const StartStackNavigator = (): JSX.Element => {
 
   (async () => {
     const data = await getData();
-
-    if (data.token) {
-      navigation.navigate('Home');
-    }
+    if (data.token) navigation.navigate('Home');
   })();
 
   return (
