@@ -20,7 +20,8 @@ const PaymentItem = (props: { payment: PaymentProps }): JSX.Element => {
       <View style={paymentItem.card}>
         <Image source={require(mastercard)} style={paymentItem.icon} />
         <TextMedium style={paymentItem.cardInfo}>
-          •••• {props.payment.last4}
+          •••• {props.payment.last4}{' '}
+          {props.payment.alias ? `(${props.payment.alias})` : null}
         </TextMedium>
       </View>
       {/* <TextRegular style={paymentItem.status}>Principal</TextRegular> */}
