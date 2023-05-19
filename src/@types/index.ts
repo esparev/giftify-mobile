@@ -9,7 +9,7 @@ export interface AuthProviderProps {
 }
 
 export interface AddressProps {
-  id: string | undefined
+  id: string | undefined;
   streetName: string;
   streetNumber: string;
   postalCode: string;
@@ -60,6 +60,7 @@ export interface PaymentListProps {
 
 type RootStackParamList = {
   AddAddress: { userId: string };
+  AddPayment: { userId: string };
   Addresses: { userId: string };
   Gift: { id: string };
   Payments: { userId: string };
@@ -67,6 +68,7 @@ type RootStackParamList = {
   Settings: { username: string };
 };
 type AddAddressRouteProp = RouteProp<RootStackParamList, 'AddAddress'>;
+type AddPaymentRouteProp = RouteProp<RootStackParamList, 'AddPayment'>;
 type AddressRouteProp = RouteProp<RootStackParamList, 'Addresses'>;
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
 type PaymentRouteProp = RouteProp<RootStackParamList, 'Payments'>;
@@ -79,5 +81,9 @@ export interface ProfileScreenProps {
   route: ProfileRouteProp | SettingsRouteProp;
 }
 export interface UserIdProps {
-  route: AddAddressRouteProp | AddressRouteProp | PaymentRouteProp;
+  route:
+    | AddAddressRouteProp
+    | AddPaymentRouteProp
+    | AddressRouteProp
+    | PaymentRouteProp;
 }
