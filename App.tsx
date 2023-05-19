@@ -2,20 +2,36 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import StartStackNavigator from './src/navigation/StartStackNavigator';
-import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'; // prettier-ignore
-import createClient from './src/graphql/createClient';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client'; // prettier-ignore
+import { setContext } from '@apollo/client/link/context';
 import { AuthProvider } from './src/context/AuthContext';
 import { getData } from './src/storage';
 import appTheme from './src/styles/appTheme';
 import color from './src/styles/color';
 
-let client: ApolloClient<NormalizedCacheObject>;
+let token: string | undefined;
 
 (async () => {
   const data = await getData();
-  const token = data.token;
-  client = createClient(token);
+  token = data.token;
 })();
+
+const httpLink = createHttpLink({
+  uri: 'https://giftify-api.up.railway.app/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      authorization: token ? `Bearer ${token}` : ``,
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 /**
  * App component for the app entry point
