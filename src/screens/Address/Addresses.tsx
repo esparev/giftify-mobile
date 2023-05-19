@@ -2,44 +2,20 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useQuery } from '@apollo/client';
 import { UserIdProps } from '../../@types';
-import {
-  TextRegular,
-  TextMedium,
-  TextSemiBold,
-} from '../../components/CustomText';
+import useAddresses from '../../graphql/useAddresses';
+import { TextRegular, TextMedium, TextSemiBold } from '../../components/CustomText'; // prettier-ignore
 import Header from '../../components/Header';
 import AddressList from '../../components/Lists/AddressList';
 import addresses from './styles/addresses';
 
 const emptyAddress = '../../assets/icons/home-detail.png';
 
-const useAddresses = (userId: string) => {
-  const query = gql`
-    query GetAddresses($userId: UUID!) {
-      addresses(userId: $userId) {
-        id
-        streetName
-        streetName
-        streetNumber
-        postalCode
-        city
-        area
-        locality
-        country
-      }
-    }
-  `;
-  return useQuery(query, { variables: { userId: userId } });
-};
-
 const Addresses = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
   const { loading, error, data } = useAddresses(userId);
   const navigation = useNavigation<StackNavigationProp<any>>();
-
-  const isEmptyAddress = false;
+  const isEmptyAddress = data?.addresses.length === 0;
 
   return (
     <View style={addresses.main}>

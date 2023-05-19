@@ -1,8 +1,8 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image, TextInput } from 'react-native';
-import { gql, useQuery } from '@apollo/client';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import useProfile from '../../graphql/useProfile';
 import { ProfileScreenProps } from '../../@types';
 import { TextMedium, TextSemiBold } from '../../components/CustomText';
 import Header from '../../components/Header';
@@ -11,25 +11,9 @@ import form from '../../styles/form';
 
 const defaultProfile = '../../assets/static/default-gift.png';
 
-const useProfile = (username: string) => {
-  const query = gql`
-    query GetProfile($username: String!) {
-      user(username: $username) {
-        username
-        firstName
-        lastName
-        email
-        avatar
-      }
-    }
-  `;
-  return useQuery(query, { variables: { username: username } });
-};
-
 const Settings = (props: ProfileScreenProps) => {
   const { route: { params: { username } } } = props;
   const { loading, error, data } = useProfile(username);
-
   const user = data?.user;
 
   return (

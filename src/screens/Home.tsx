@@ -2,10 +2,10 @@ import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useQuery } from '@apollo/client';
+import useHome from '../graphql/useHome';
+import { getData } from '../storage';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
-import getData from '../utils/functions/getData';
 import icon from '../styles/icon';
 import home from './styles/home';
 
@@ -21,29 +21,9 @@ let userUsername: string;
   userUsername = userData.user.username;
 })();
 
-const useHome = (username: string) => {
-  const query = gql`
-    query GetHome($username: String!) {
-      gifts {
-        id
-        name
-        image
-        rating
-        price
-      }
-      user(username: $username) {
-        avatar
-      }
-    }
-  `;
-  return useQuery(query, { variables: { username: username } });
-};
-
 const Home = (): JSX.Element => {
   const { loading, error, data } = useHome(userUsername);
   const navigation = useNavigation<StackNavigationProp<any>>();
-
-  const gifts = data?.gifts;
   const avatar = data?.user?.avatar;
 
   return (
@@ -86,7 +66,7 @@ const Home = (): JSX.Element => {
       {loading ? (
         <ActivityIndicator color="#ffffff" />
       ) : (
-        <GiftList gifts={gifts} />
+        <GiftList gifts={data?.gifts} />
       )}
     </View>
   );

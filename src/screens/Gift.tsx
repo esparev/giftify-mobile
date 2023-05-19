@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
-import { gql, useQuery } from '@apollo/client';
 import { GiftScreenProps } from '../@types/index';
+import useGift from '../graphql/useGift';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
@@ -10,23 +10,8 @@ import gift from './styles/gift';
 const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
 
-const useGift = (id: string) => {
-  const query = gql`
-    query GetGift($id: UUID!) {
-      gift(id: $id) {
-        name
-        image
-        rating
-        price
-        description
-      }
-    }
-  `;
-  return useQuery(query, { variables: { id: id } });
-};
-
 const Gift = (props: GiftScreenProps) => {
-  const { route: { params: { id } } } = props;
+  const { route: { params: { id } } } = props; // prettier-ignore
 
   const { loading, error, data } = useGift(id);
   const [qty, setQty] = useState(1);
@@ -102,7 +87,9 @@ const Gift = (props: GiftScreenProps) => {
           <View style={gift.qtyModifier}>
             <TouchableOpacity
               style={gift.removeQty}
-              onPress={() => removeQty(qty, data?.gift?.price, setQty, setTotal)}>
+              onPress={() =>
+                removeQty(qty, data?.gift?.price, setQty, setTotal)
+              }>
               <TextSemiBold style={gift.qtyItems}>-</TextSemiBold>
             </TouchableOpacity>
             <TextSemiBold style={gift.qtyItems}>{qty}</TextSemiBold>

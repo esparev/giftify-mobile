@@ -1,10 +1,10 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image } from 'react-native';
-import { gql, useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileScreenProps } from '../../@types';
+import useProfile from '../../graphql/useProfile';
+import { removeData } from '../../storage';
 import { TextMedium, TextSemiBold } from '../../components/CustomText';
 import Header from '../../components/Header';
 import profile from './styles/profile';
@@ -16,38 +16,10 @@ const bellIcon = '../../assets/icons/bell-yellow.png';
 const logoutIcon = '../../assets/icons/logout-purple.png';
 const defaultProfile = '../../assets/static/default-gift.png';
 
-const useProfile = (username: string) => {
-  const query = gql`
-    query GetProfile($username: String!) {
-      user(username: $username) {
-        id
-        username
-        firstName
-        lastName
-        avatar
-      }
-    }
-  `;
-  return useQuery(query, { variables: { username: username } });
-};
-
-const removeData = async () => {
-  try {
-    await AsyncStorage.removeItem('@user_data');
-  } catch (e) {
-    return;
-  }
-};
-
 const Profile = (props: ProfileScreenProps) => {
-  const {
-    route: {
-      params: { username },
-    },
-  } = props;
+  const { route: { params: { username } } } = props; // prettier-ignore
   const { loading, error, data } = useProfile(username);
   const navigation = useNavigation<StackNavigationProp<any>>();
-
   const user = data?.user;
 
   return (
