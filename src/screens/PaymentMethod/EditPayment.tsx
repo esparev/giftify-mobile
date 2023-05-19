@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { EditPaymentScreenProps } from '../../@types';
-import { updatePaymentMutation } from '../../graphql/paymentMutation';
+import { updatePaymentMutation, deletePaymentMutation } from '../../graphql/paymentMutation'; // prettier-ignore
 import { TextMedium } from '../../components/CustomText';
 import DeletePayment from '../../modals/DeleteModal';
 import Header from '../../components/Header';
@@ -18,14 +18,21 @@ const EditPayment = (props: EditPaymentScreenProps) => {
   const { route: { params: { payment } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
   const [updatePayment, { data, loading, error }] = useMutation(updatePaymentMutation); // prettier-ignore
+  const [deletePayment] = useMutation(deletePaymentMutation);
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const formik = useFormik({
     initialValues: initialValues(payment),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: data => {
       updatePayment({ variables: { id: payment.id, data: data } });
+      navigation.goBack();
     },
   });
+
+  const handleDelete = () => {
+    deletePayment({ variables: { id: payment.id } });
+  };
 
   return (
     <View style={editPayment.main}>
@@ -54,6 +61,7 @@ const EditPayment = (props: EditPaymentScreenProps) => {
         description="Eliminar esta tarjeta no afectará su historial de compras. Esta acción no puede deshacerse."
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        onPress={handleDelete}
       />
     </View>
   );

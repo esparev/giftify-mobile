@@ -14,6 +14,7 @@ type DeleteModalProps = {
   description: string;
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  onPress: () => void;
 };
 
 const close = '../assets/icons/close.png';
@@ -23,7 +24,13 @@ const DeleteModal = ({
   description,
   modalVisible,
   setModalVisible,
+  onPress,
 }: DeleteModalProps): JSX.Element => {
+  const handleDelete = () => {
+    onPress();
+    setModalVisible(false);
+  };
+
   return (
     <View>
       <Modal
@@ -70,7 +77,7 @@ const DeleteModal = ({
             </TouchableOpacity>
             <TouchableOpacity
               style={[deleteModal.btn, deleteModal.btnPrimary]}
-              onPress={() => setModalVisible(false)}>
+              onPress={handleDelete}>
               <TextMedium
                 style={[deleteModal.btnTxt, deleteModal.btnTxtPrimary]}>
                 Eliminar
