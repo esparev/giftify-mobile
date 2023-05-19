@@ -2,58 +2,16 @@ import React from 'react';
 import { TouchableOpacity, View, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserIdProps } from '../../@types';
+import addressMutation from '../../graphql/addressMutation';
 import { TextMedium } from '../../components/CustomText';
 import Header from '../../components/Header';
 import address from './styles/address';
 import form from '../../styles/form';
-
-const initialValues = () => {
-  return {
-    streetName: '',
-    streetNumber: '',
-    area: '',
-    postalCode: '',
-    city: '',
-    locality: '',
-    country: '',
-    userId: '',
-  };
-};
-
-const validationSchema = () => {
-  return {
-    streetName: Yup.string().required('Por favor ingrese la calle y número'),
-    area: Yup.string().required('Por favor ingrese la colonia'),
-    postalCode: Yup.string().required('Por favor ingrese el código postal'),
-    city: Yup.string().required('Por favor ingrese la ciudad'),
-    locality: Yup.string().required('Por favor ingrese el estado'),
-    country: Yup.string().required('Por favor ingrese el país'),
-  };
-};
-
-const extractStreetDetails = (address: string) => {
-  const regex = /^(.*\b(?:\w+\W+)*\w+)\s+(\d+)\s*$/; // Matches the street name followed by the street number at the end
-  const match = address.match(regex);
-  if (match) {
-    const streetName = match[1].trim(); // Extracts the street name and trims leading/trailing spaces
-    const streetNumber = match[2]; // Extracts the street number
-    return { streetName, streetNumber };
-  } else {
-    return null; // No street details found
-  }
-}
-
-const addressMutation = gql`
-  mutation CreateAddress($data: CreateAddress!) {
-    createAddress(data: $data) {
-      id
-    }
-  }
-`;
+import { initialValues, validationSchema, extractStreetDetails } from '../../utils/functions/addAddressUtils'; // prettier-ignore
 
 const AddAddress = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore

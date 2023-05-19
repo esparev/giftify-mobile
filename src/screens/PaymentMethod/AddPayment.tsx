@@ -1,68 +1,17 @@
 import React, { useState } from 'react';
-import {
-  TouchableOpacity,
-  ScrollView,
-  View,
-  Image,
-  TextInput,
-} from 'react-native';
+import { TouchableOpacity, ScrollView, View, Image, TextInput } from 'react-native'; // prettier-ignore
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserIdProps } from '../../@types';
+import paymentMutation from '../../graphql/paymentMutation';
 import { TextRegular, TextMedium } from '../../components/CustomText';
 import Header from '../../components/Header';
+import { initialValues, validationSchema, parseDate, formatCardNumber } from '../../utils/functions/addPaymentUtils'; // prettier-ignore
 import addPayment from './styles/addPayment';
 import form from '../../styles/form';
-
-const initialValues = () => {
-  return {
-    alias: '',
-    cardholderName: '',
-    number: '',
-    expiryMonth: 0,
-    expiryYear: 0,
-    cvv: '',
-    userId: '',
-  };
-};
-
-const validationSchema = () => {
-  return {
-    alias: Yup.string().required('Por favor ingrese el alias de la tarjeta'),
-    cardholderName: Yup.string().required(
-      'Por favor ingrese el titular de la tarjeta',
-    ),
-    number: Yup.string().required('Por favor ingrese el número de la tarjeta'),
-    // expiryMonth: Yup.number(),
-    cvv: Yup.string().required('Por favor ingrese el CVV'),
-  };
-};
-
-const parseDate = (dateString: string) => {
-  const [monthString, yearString] = dateString.split('/');
-  const month = parseInt(monthString, 10);
-  const year = parseInt(yearString, 10);
-
-  return { month, year };
-};
-
-const formatCardNumber = (input: string) => {
-  const cardNumber = input.replace(/\D/g, ''); // Remove non-numeric characters
-  const formattedCardNumber = cardNumber.replace(/(\d{4})(?=\d)/g, '$1 '); // Add a space after every 4 digits
-
-  return formattedCardNumber;
-};
-
-const paymentMutation = gql`
-  mutation CreatePayment($data: CreatePaymentMethod!) {
-    createPaymentMethod(data: $data) {
-      id
-    }
-  }
-`;
 
 const AddPayment = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
@@ -81,8 +30,6 @@ const AddPayment = (props: UserIdProps) => {
       data.expiryMonth = parsedDate.month;
       data.expiryYear = parsedDate.year;
       data.userId = userId;
-      console.log(data);
-
       createPayment({ variables: { data: data } });
     },
   });
