@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const paymentMutation = gql`
+export const createPaymentMutation = gql`
   mutation CreatePayment($data: CreatePaymentMethod!) {
     createPaymentMethod(data: $data) {
       id
@@ -8,4 +8,10 @@ const paymentMutation = gql`
   }
 `;
 
-export default paymentMutation;
+export const updatePaymentMutation = gql`
+  mutation UpdatePayment($id: UUID!, $data: UpdatePaymentMethod!) {
+    updatePaymentMethod(id: $id, data: $data) {
+      id
+    }
+  }
+`;

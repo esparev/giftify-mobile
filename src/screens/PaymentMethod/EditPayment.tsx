@@ -1,15 +1,31 @@
 import React, { useState } from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, TextInput } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useMutation } from '@apollo/client';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { EditPaymentScreenProps } from '../../@types';
+import { updatePaymentMutation } from '../../graphql/paymentMutation';
 import { TextMedium } from '../../components/CustomText';
-import DeleteAddress from '../../modals/DeleteModal';
+import DeletePayment from '../../modals/DeleteModal';
 import Header from '../../components/Header';
+import { initialValues, validationSchema } from '../../utils/functions/editPaymentUtils'; // prettier-ignore
 import editPayment from './styles/editPayment';
 import form from '../../styles/form';
 
-const EditPayment = () => {
+const EditPayment = (props: EditPaymentScreenProps) => {
+  const { route: { params: { payment } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
+  const [updatePayment, { data, loading, error }] = useMutation(updatePaymentMutation); // prettier-ignore
+
+  const formik = useFormik({
+    initialValues: initialValues(payment),
+    validationSchema: Yup.object(validationSchema()),
+    onSubmit: data => {
+      updatePayment({ variables: { id: payment.id, data: data } });
+    },
+  });
 
   return (
     <View style={editPayment.main}>
@@ -18,9 +34,14 @@ const EditPayment = () => {
       <View style={form.form}>
         <View style={form.inputField}>
           <TextMedium style={form.label}>Alias de la tarjeta</TextMedium>
-          <TextInput style={form.input} placeholder="BBVA" />
+          <TextInput
+            style={form.input}
+            placeholder="BBVA"
+            value={formik.values.alias}
+            onChangeText={input => formik.setFieldValue('alias', input)}
+          />
         </View>
-        <TouchableOpacity style={form.button}>
+        <TouchableOpacity style={form.button} onPress={formik.handleSubmit}>
           <TextMedium style={form.buttonTxt}>Actualizar</TextMedium>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -28,7 +49,7 @@ const EditPayment = () => {
         </TouchableOpacity>
       </View>
       {/* Delete Payment Modal */}
-      <DeleteAddress
+      <DeletePayment
         title="¿Deseas eliminar la tarjeta?"
         description="Eliminar esta tarjeta no afectará su historial de compras. Esta acción no puede deshacerse."
         modalVisible={modalVisible}

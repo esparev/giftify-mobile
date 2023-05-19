@@ -16,7 +16,9 @@ const PaymentItem = (props: { payment: PaymentProps }): JSX.Element => {
   return (
     <TouchableOpacity
       style={paymentItem.method}
-      onPress={() => navigation.push('Edit Payment')}>
+      onPress={() =>
+        navigation.push('Edit Payment', { payment: props.payment })
+      }>
       <View style={paymentItem.card}>
         <Image source={require(mastercard)} style={paymentItem.icon} />
         <TextMedium style={paymentItem.cardInfo}>

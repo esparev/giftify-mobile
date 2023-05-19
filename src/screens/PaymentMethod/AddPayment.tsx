@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserIdProps } from '../../@types';
-import paymentMutation from '../../graphql/paymentMutation';
+import { createPaymentMutation } from '../../graphql/paymentMutation';
 import { TextRegular, TextMedium } from '../../components/CustomText';
 import Header from '../../components/Header';
 import { initialValues, validationSchema, parseDate, formatCardNumber } from '../../utils/functions/addPaymentUtils'; // prettier-ignore
@@ -18,7 +18,7 @@ const AddPayment = (props: UserIdProps) => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [createPayment, { data, loading, error }] =
-    useMutation(paymentMutation);
+    useMutation(createPaymentMutation);
 
   const formik = useFormik({
     initialValues: initialValues(),
