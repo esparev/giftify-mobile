@@ -11,6 +11,7 @@ const useHome = (username: string) => {
         price
       }
       user(username: $username) {
+        id
         avatar
       }
     }
