@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { UserIdProps } from '../@types';
+import useUserCart from '../graphql/useUserCart';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
-import CartItem from '../components/Items/CartItem';
 import Checkout from '../modals/Checkout';
 import cart from './styles/cart';
+import CartList from '../components/Lists/CartList';
 
 const emptyCart = '../assets/icons/basket.png';
 
-const Cart = () => {
+const Cart = (props: UserIdProps) => {
+  const { route: { params: { userId } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
-
-  const isEmptyCart = true;
+  const { data, loading, error } = useUserCart(userId);
+  const isEmptyCart = data?.userCart.length === 0;
+  const total = data?.userCart?.total as number;
+  const fixedTotal = total?.toFixed(2);
 
   return (
     <View>
@@ -35,15 +40,13 @@ const Cart = () => {
           <View style={cart.main}>
             <View style={cart.container}>
               <Header title="Carrito" isNestedScreen={true} />
-              <CartItem />
-              <CartItem />
-              <CartItem />
+              <CartList cartItems={data?.userCart?.cartItems} />
             </View>
             {/* Checkout */}
             <View style={cart.checkout}>
               <View style={cart.checkoutInfo}>
                 <TextRegular style={cart.checkoutText}>Total:</TextRegular>
-                <TextSemiBold style={cart.checkoutPrice}>$100.00</TextSemiBold>
+                <TextSemiBold style={cart.checkoutPrice}>${fixedTotal}</TextSemiBold>
               </View>
               {/* Checkout Button */}
               <TouchableOpacity

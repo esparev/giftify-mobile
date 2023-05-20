@@ -7,6 +7,7 @@ const cartItem = StyleSheet.create({
     width: '100%',
     padding: 12,
     borderRadius: 12,
+    marginBottom: 24,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: color.foreground,
