@@ -8,6 +8,11 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+export interface AddToCartProps {
+  giftId: string;
+  cartId: string;
+  quantity: number;
+}
 export interface AddressProps {
   id: string | undefined;
   streetName: string;
