@@ -77,6 +77,7 @@ type RootStackParamList = {
   AddAddress: { userId: string };
   AddPayment: { userId: string };
   Addresses: { userId: string };
+  Cart: { userId: string };
   EditAddress: { address: AddressProps };
   EditPayment: { payment: PaymentProps };
   Gift: { id: string };
@@ -87,6 +88,7 @@ type RootStackParamList = {
 type AddAddressRouteProp = RouteProp<RootStackParamList, 'AddAddress'>;
 type AddPaymentRouteProp = RouteProp<RootStackParamList, 'AddPayment'>;
 type AddressesRouteProp = RouteProp<RootStackParamList, 'Addresses'>;
+type CartRouteProp = RouteProp<RootStackParamList, 'Cart'>;
 type EditAddressRouteProp = RouteProp<RootStackParamList, 'EditAddress'>;
 type EditPaymentRouteProp = RouteProp<RootStackParamList, 'EditPayment'>;
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
@@ -110,5 +112,6 @@ export interface UserIdProps {
     | AddAddressRouteProp
     | AddPaymentRouteProp
     | AddressesRouteProp
+    | CartRouteProp
     | PaymentRouteProp;
 }
