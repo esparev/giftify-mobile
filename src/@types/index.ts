@@ -24,6 +24,12 @@ export interface AddressProps {
   country: string | undefined;
   createdAt: string | undefined;
 }
+export interface CartItemProps {
+  id: string | undefined;
+  quantity: number;
+  gift: GiftProps;
+  createdAt: string | undefined;
+}
 export interface CategoryProps {
   id: string | undefined;
   name: string;
@@ -62,6 +68,9 @@ export interface UserProps {
 
 export interface AddressListProps {
   addresses: AddressProps[];
+}
+export interface CartItemListProps {
+  cartItems: CartItemProps[];
 }
 export interface CategoryListProps {
   categories: CategoryProps[];
