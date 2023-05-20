@@ -25,7 +25,6 @@ let userUsername: string;
 
 const Gift = (props: GiftScreenProps) => {
   const { route: { params: { id } } } = props; // prettier-ignore
-
   const { loading, error, data } = useGift(id);
   const { data: cartData } = useCartByUser(userUsername);
   const [qty, setQty] = useState(1);
@@ -34,6 +33,7 @@ const Gift = (props: GiftScreenProps) => {
   const [addToCart] = useMutation(addToCartMutation);
   const navigation = useNavigation<StackNavigationProp<any>>();
   const cartId = cartData?.user?.cart?.id;
+  const userId = cartData?.user?.id;
 
   const handleAddToCart = () => {
     const data = { giftId: id, cartId: cartId, quantity: qty };
@@ -132,7 +132,7 @@ const Gift = (props: GiftScreenProps) => {
             style={gift.checkoutBtn}
             onPress={() => {
               handleAddToCart();
-              navigation.push('Cart');
+              navigation.push('Cart', { userId: userId });
             }}>
             <TextRegular style={gift.checkoutText}>Order</TextRegular>
           </TouchableOpacity>

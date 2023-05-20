@@ -42,7 +42,8 @@ const Home = (): JSX.Element => {
         </TouchableOpacity>
         {/* Cart & Profile */}
         <View style={home.cartProfile}>
-          <TouchableOpacity onPress={() => navigation.push('Cart')}>
+          <TouchableOpacity
+            onPress={() => navigation.push('Cart', { userId: data?.user?.id })}>
             <Image source={require(cart)} style={icon.size} />
           </TouchableOpacity>
           <TouchableOpacity
