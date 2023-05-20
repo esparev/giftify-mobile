@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Image, TextInput } from 'react-native'; // prettier-ignore
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-import useCategories from '../graphql/useCategories';
+import { ApolloError } from '@apollo/client';
+import { SearchScreenProps } from '../@types';
+import useGiftsByCategory from '../graphql/useGiftsByCategory';
+import useGiftsBySearchInput from '../graphql/useGiftsBySearchInput';
 import { TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
-import CategoryList from '../components/Lists/CategoryList';
+import GiftList from '../components/Lists/GiftList';
 import Filters from '../modals/Filters';
 import icon from '../styles/icon';
 import search from './styles/search';
@@ -13,17 +14,30 @@ import search from './styles/search';
 const searchIcon = '../assets/icons/search.png';
 const adjustments = '../assets/icons/adjustments.png';
 
-const Search = (): JSX.Element => {
-  const { loading, error, data } = useCategories();
-  const [searchInput, setSearchInput] = useState('');
+const SearchResult = (props: SearchScreenProps): JSX.Element => {
+  const { route: { params: { category } } } = props; // prettier-ignore
+  const { route: { params: { searchInput } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const { loading, error, data } = useGiftsByCategory(category);
+  const {
+    loading: loading2,
+    error: error2,
+    data: data2,
+  } = useGiftsBySearchInput(searchInput);
+
+  let filteredGifts;
+
+  if (category) {
+    filteredGifts = data?.giftsByCategory;
+  } else if (searchInput) {
+    filteredGifts = data2?.giftsBySearchInput;
+  }
 
   return (
     <View>
       <View style={search.main}>
         {/* Header */}
-        <Header title="Buscar" />
+        <Header title="Buscar" isNestedScreen />
         {/* Search */}
         <View style={search.tools}>
           <TouchableOpacity
@@ -36,17 +50,13 @@ const Search = (): JSX.Element => {
             <TextInput
               style={search.input}
               placeholder="¿Qué quieres regalar?"
-              onChangeText={text => setSearchInput(text)}
-              onSubmitEditing={() =>
-                navigation.push('Search Result', { searchInput: searchInput })
-              }
             />
           </View>
         </View>
         {/* Explore/Categories */}
         <View style={{ rowGap: 16, height: '100%', paddingBottom: 100 }}>
-          <TextSemiBold style={search.title}>Explorar</TextSemiBold>
-          <CategoryList categories={data?.categories} />
+          <TextSemiBold style={search.title}>Resultados</TextSemiBold>
+          <GiftList gifts={filteredGifts} />
         </View>
       </View>
       {/* Filters Modal */}
@@ -55,4 +65,4 @@ const Search = (): JSX.Element => {
   );
 };
 
-export default Search;
+export default SearchResult;

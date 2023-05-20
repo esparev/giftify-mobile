@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Search from '../screens/Search';
+import SearchResult from '../screens/SearchResult';
 import Cart from '../screens/Cart';
 
 const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ const SearchStackNavigator = (): JSX.Element => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Search" component={Search} options={{...screenOptions}} />
+      <Stack.Screen name="Search Result" component={SearchResult} options={{...screenOptions}} />
       <Stack.Screen name="Cart" component={Cart} options={{...screenOptions}} />
     </Stack.Navigator>
   );

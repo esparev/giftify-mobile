@@ -8,10 +8,13 @@ import categoryItem from './styles/categoryItem';
 
 const CategoryItem = (props: { category: CategoryProps }): JSX.Element => {
   const navigation = useNavigation<StackNavigationProp<any>>();
-  
+
   return (
     <TouchableOpacity
-      style={[categoryItem.card, { backgroundColor: props.category.hexColor }]}>
+      style={[categoryItem.card, { backgroundColor: props.category.hexColor }]}
+      onPress={() =>
+        navigation.push('Search Result', { category: props.category.name })
+      }>
       <TextSemiBold style={categoryItem.name}>
         {props.category.name}
       </TextSemiBold>
