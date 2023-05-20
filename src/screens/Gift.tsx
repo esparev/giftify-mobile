@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { useMutation } from '@apollo/client';
 import { GiftScreenProps } from '../@types/index';
 import useGift from '../graphql/useGift';
+import useCartByUser from '../graphql/useCart';
+import { addToCartMutation } from '../graphql/cartMutation';
+import { getData } from '../storage';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
@@ -10,13 +16,29 @@ import gift from './styles/gift';
 const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
 
+let userUsername: string;
+
+(async () => {
+  const userData = await getData();
+  userUsername = userData.user.username;
+})();
+
 const Gift = (props: GiftScreenProps) => {
   const { route: { params: { id } } } = props; // prettier-ignore
 
   const { loading, error, data } = useGift(id);
+  const { data: cartData } = useCartByUser(userUsername);
   const [qty, setQty] = useState(1);
   const [total, setTotal] = useState(data?.gift.price);
   const [activeBtn, setActiveBtn] = useState(true);
+  const [addToCart] = useMutation(addToCartMutation);
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const cartId = cartData?.user?.cart?.id;
+
+  const handleAddToCart = () => {
+    const data = { giftId: id, cartId: cartId, quantity: qty };
+    addToCart({ variables: { data: data } });
+  };
 
   return (
     <View style={gift.main}>
@@ -106,7 +128,12 @@ const Gift = (props: GiftScreenProps) => {
             <TextRegular style={gift.totalText}>Total:</TextRegular>
             <TextSemiBold style={gift.totalValue}>${total}</TextSemiBold>
           </View>
-          <TouchableOpacity style={gift.checkoutBtn}>
+          <TouchableOpacity
+            style={gift.checkoutBtn}
+            onPress={() => {
+              handleAddToCart();
+              navigation.push('Cart');
+            }}>
             <TextRegular style={gift.checkoutText}>Order</TextRegular>
           </TouchableOpacity>
         </View>

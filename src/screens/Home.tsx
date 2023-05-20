@@ -1,6 +1,6 @@
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import useHome from '../graphql/useHome';
 import { getData } from '../storage';
