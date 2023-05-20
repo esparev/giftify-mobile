@@ -92,6 +92,7 @@ type RootStackParamList = {
   Gift: { id: string };
   Payments: { userId: string };
   Profile: { username: string };
+  SearchResult: { category?: string; searchInput?: string };
   Settings: { username: string };
 };
 type AddAddressRouteProp = RouteProp<RootStackParamList, 'AddAddress'>;
@@ -103,6 +104,7 @@ type EditPaymentRouteProp = RouteProp<RootStackParamList, 'EditPayment'>;
 type GiftRouteProp = RouteProp<RootStackParamList, 'Gift'>;
 type PaymentRouteProp = RouteProp<RootStackParamList, 'Payments'>;
 type ProfileRouteProp = RouteProp<RootStackParamList, 'Profile'>;
+type SearchRouteProp = RouteProp<RootStackParamList, 'SearchResult'>;
 type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>;
 export interface GiftScreenProps {
   route: GiftRouteProp;
@@ -115,6 +117,9 @@ export interface EditAddressScreenProps {
 }
 export interface EditPaymentScreenProps {
   route: EditPaymentRouteProp;
+}
+export interface SearchScreenProps {
+  route: SearchRouteProp;
 }
 export interface UserIdProps {
   route:
