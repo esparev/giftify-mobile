@@ -14,6 +14,8 @@ const cart = StyleSheet.create({
     rowGap: 24,
   },
   container: {
+    // height: '100%',
+    // paddingBottom: 100,
     rowGap: 24,
   },
   checkout: {

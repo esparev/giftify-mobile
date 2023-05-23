@@ -3,7 +3,12 @@ import { FlatList } from 'react-native';
 import { CartItemListProps } from '../../@types/index';
 import CartItem from '../Items/CartItem';
 
-const CartList = (props: CartItemListProps): JSX.Element => {
+const CartList = (
+  props: CartItemListProps & {
+    onAddToCart: () => void;
+    onRemoveFromCart: () => void;
+  },
+): JSX.Element => {
   const { cartItems } = props;
 
   return (
@@ -12,7 +17,13 @@ const CartList = (props: CartItemListProps): JSX.Element => {
       horizontal={false}
       showsVerticalScrollIndicator={false}
       keyExtractor={cartItem => String(cartItem.id)}
-      renderItem={({ item }) => <CartItem cartItem={item} />}
+      renderItem={({ item }) => (
+        <CartItem
+          cartItem={item}
+          onRemoveFromCart={props.onRemoveFromCart}
+          onAddToCart={props.onAddToCart}
+        />
+      )}
     />
   );
 };

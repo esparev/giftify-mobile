@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import { useMutation } from '@apollo/client';
 import { UserIdProps } from '../@types';
 import getCart from '../api/getCart';
+import useCartByUser from '../graphql/useCart';
+import {
+  addToCartMutation,
+  removeFromCartMutation,
+} from '../graphql/cartMutation';
 import { getData } from '../storage';
-import cartSkeleton from '../skeletons/styles/cartSkeleton';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import CartList from '../components/Lists/CartList';
@@ -14,6 +19,13 @@ import CartSkeleton from '../skeletons/CartSkeleton';
 
 const emptyCart = '../assets/icons/basket.png';
 
+let userUsername: string;
+
+(async () => {
+  const userData = await getData();
+  userUsername = userData.user.username;
+})();
+
 const Cart = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
   const isFocused = useIsFocused();
@@ -21,7 +33,29 @@ const Cart = (props: UserIdProps) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [isEmptyCart, setIsEmptyCart] = useState(false);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState<number>(0);
+  const { data } = useCartByUser(userUsername);
+  const [addToCart] = useMutation(addToCartMutation);
+  const [removeFromCart] = useMutation(removeFromCartMutation);
+  const cartId = data?.user?.cart?.id;
+
+  const handleAddToCart = (giftId?: string, qty?: number, price?: number) => {
+    const data = { giftId: giftId, cartId: cartId, quantity: qty };
+    console.log(Number(total) + price!);
+    setTotal(Number(total) + price!);
+    addToCart({ variables: { data: data } });
+  };
+
+  const handleRemoveFromCart = (
+    giftId?: string,
+    qty?: number,
+    price?: number,
+  ) => {
+    const data = { giftId: giftId, cartId: cartId, quantity: qty };
+    console.log(Number(total) - price!);
+    setTotal(Number(total) - price!);
+    removeFromCart({ variables: { data: data } });
+  };
 
   const loadData = async () => {
     try {
@@ -74,7 +108,11 @@ const Cart = (props: UserIdProps) => {
             <View style={cartStyle.main}>
               <View style={cartStyle.container}>
                 <Header title="Carrito" isNestedScreen={true} />
-                <CartList cartItems={cartItems} />
+                <CartList
+                  cartItems={cartItems}
+                  onAddToCart={handleAddToCart}
+                  onRemoveFromCart={handleRemoveFromCart}
+                />
               </View>
               {/* Checkout */}
               <View style={cartStyle.checkout}>
