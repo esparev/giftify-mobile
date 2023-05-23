@@ -68,7 +68,7 @@ export interface UserProps {
 }
 
 export interface AddressListProps {
-  addresses: AddressProps[];
+  addresses: AddressProps[] | undefined;
 }
 export interface CartItemListProps {
   cartItems: CartItemProps[] | undefined;
