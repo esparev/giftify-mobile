@@ -70,7 +70,7 @@ export interface AddressListProps {
   addresses: AddressProps[];
 }
 export interface CartItemListProps {
-  cartItems: CartItemProps[];
+  cartItems: CartItemProps[] | undefined;
 }
 export interface CategoryListProps {
   categories: CategoryProps[];
