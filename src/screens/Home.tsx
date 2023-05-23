@@ -33,14 +33,8 @@ const Home = (): JSX.Element => {
 
   const loadData = async () => {
     try {
-      let userUsername: string;
-      let token: string;
-
-      const userData = await getData();
-      userUsername = userData.user.username;
-      token = userData.token;
-
-      const { user, gifts } = await getHome(userUsername, token);
+      const { user: { username }, token } = await getData(); // prettier-ignore
+      const { user, gifts } = await getHome(username, token);
       setUser(user);
       setGifts(gifts);
       setLoading(false);
