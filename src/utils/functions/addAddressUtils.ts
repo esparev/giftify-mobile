@@ -24,14 +24,16 @@ export const validationSchema = () => {
   };
 };
 
-export const extractStreetDetails = (address: string) => {
+export const extractStreetDetails = (
+  address: string,
+): { streetName: string; streetNumber: string } => {
   const regex = /^(.*\b(?:\w+\W+)*\w+)\s+(\d+)\s*$/; // Matches the street name followed by the street number at the end
   const match = address.match(regex);
   if (match) {
     const streetName = match[1].trim(); // Extracts the street name and trims leading/trailing spaces
     const streetNumber = match[2]; // Extracts the street number
-    return { streetName, streetNumber };
+    return { streetName: streetName, streetNumber: streetNumber };
   } else {
-    return null; // No street details found
+    return { streetName: '', streetNumber: '' }; // No street details found
   }
 };

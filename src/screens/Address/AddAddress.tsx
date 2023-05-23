@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, View, TextInput } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -15,15 +15,17 @@ import form from '../../styles/form';
 
 const AddAddress = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
+  const [streetDetails, setStreetDetails] = useState<string>('');
   const [createAddress, { data, loading, error }] = useMutation(createAddressMutation); // prettier-ignore
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: data => {
-      const streetDetails = extractStreetDetails(data.streetName);
-      data.streetName = streetDetails!.streetName;
-      data.streetNumber = streetDetails!.streetNumber;
+      setStreetDetails(data.streetName);
+      const { streetName, streetNumber } = extractStreetDetails(streetDetails);
+      data.streetName = streetName;
+      data.streetNumber = streetNumber;
       data.userId = userId;
       createAddress({ variables: { data: data } });
     },
