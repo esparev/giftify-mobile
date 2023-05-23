@@ -80,7 +80,7 @@ export interface GiftListProps {
   gifts: GiftProps[];
 }
 export interface PaymentListProps {
-  payments: PaymentProps[];
+  payments: PaymentProps[] | undefined;
 }
 
 type RootStackParamList = {

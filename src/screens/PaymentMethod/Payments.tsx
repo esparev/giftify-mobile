@@ -1,44 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { UserIdProps } from '../../@types';
-import usePayments from '../../graphql/usePayments';
+import getPayments from '../../api/getPayments';
+import { getData } from '../../storage';
 import { TextRegular, TextMedium, TextSemiBold } from '../../components/CustomText'; // prettier-ignore
 import Header from '../../components/Header';
 import PaymentList from '../../components/Lists/PaymentList';
-import payments from './styles/payments';
+import paymentsStyle from './styles/payments';
 
 const emptyPayment = '../../assets/icons/creditcard-stack.png';
 
 const Payments = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
-  const { loading, error, data } = usePayments(userId);
+  const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(true);
+  const [payments, setPayments] = useState();
+  const [isEmptyPayment, setIsEmptyPayment] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
-  const isEmptyPayment = data?.paymentMethods.length === 0;
+
+  const loadData = async () => {
+    try {
+      const { token } = await getData();
+      const payments = await getPayments(userId, token);
+      setPayments(payments);
+      setIsEmptyPayment(payments.length === 0);
+      setLoading(false);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await loadData();
+    })();
+  }, [isFocused]);
 
   return (
-    <View style={payments.main}>
+    <View style={paymentsStyle.main}>
       <Header title="Métodos de pago" isNestedScreen />
       {isEmptyPayment ? (
-        <View style={payments.emptyPayment}>
+        <View style={paymentsStyle.emptyPayment}>
           <Image
             source={require(emptyPayment)}
-            style={payments.emptyPaymentImg}
+            style={paymentsStyle.emptyPaymentImg}
           />
-          <View style={payments.emptyInfo}>
-            <TextSemiBold style={payments.emptyPaymentTitle}>
+          <View style={paymentsStyle.emptyInfo}>
+            <TextSemiBold style={paymentsStyle.emptyPaymentTitle}>
               Sin métodos de pago
             </TextSemiBold>
-            <TextRegular style={payments.emptyPaymentText}>
+            <TextRegular style={paymentsStyle.emptyPaymentText}>
               Necesitas un método de pago para realizar compras
             </TextRegular>
             <TouchableOpacity
-              style={payments.btn}
+              style={paymentsStyle.btn}
               onPress={() =>
                 navigation.push('Add Payment', { userId: userId })
               }>
-              <TextRegular style={payments.btnText}>
+              <TextRegular style={paymentsStyle.btnText}>
                 Agregar método de pago
               </TextRegular>
             </TouchableOpacity>
@@ -46,11 +67,11 @@ const Payments = (props: UserIdProps) => {
         </View>
       ) : (
         <View>
-          <PaymentList payments={data?.paymentMethods} />
+          <PaymentList payments={payments} />
           <TouchableOpacity
-            style={payments.method}
+            style={paymentsStyle.method}
             onPress={() => navigation.push('Add Payment', { userId: userId })}>
-            <TextMedium style={payments.addPayment}>
+            <TextMedium style={paymentsStyle.addPayment}>
               Agregar método de pago
             </TextMedium>
           </TouchableOpacity>
