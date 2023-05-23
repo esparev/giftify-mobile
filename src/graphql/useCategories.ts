@@ -5,6 +5,7 @@ const useCategories = () => {
     query GetPayments {
       categories {
         id
+        slug
         name
         hexColor
         image

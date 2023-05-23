@@ -13,7 +13,7 @@ const CategoryItem = (props: { category: CategoryProps }): JSX.Element => {
     <TouchableOpacity
       style={[categoryItem.card, { backgroundColor: props.category.hexColor }]}
       onPress={() =>
-        navigation.push('Search Result', { category: props.category.name })
+        navigation.push('Search Result', { category: props.category.slug })
       }>
       <TextSemiBold style={categoryItem.name}>
         {props.category.name}

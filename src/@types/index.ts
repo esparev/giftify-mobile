@@ -32,6 +32,7 @@ export interface CartItemProps {
 }
 export interface CategoryProps {
   id: string | undefined;
+  slug: string;
   name: string;
   hexColor: string;
   image: string;
