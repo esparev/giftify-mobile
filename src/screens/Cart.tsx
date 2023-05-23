@@ -1,35 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
-import { UserIdProps } from '../@types';
+import { useIsFocused } from '@react-navigation/native';
+import { CartItemListProps, UserIdProps } from '../@types';
 import useUserCart from '../graphql/useUserCart';
+import getCart from '../api/getCart';
+import { getData } from '../storage';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import Checkout from '../modals/Checkout';
-import cart from './styles/cart';
+import cartStyle from './styles/cart';
 import CartList from '../components/Lists/CartList';
 
 const emptyCart = '../assets/icons/basket.png';
 
 const Cart = (props: UserIdProps) => {
   const { route: { params: { userId } } } = props; // prettier-ignore
+  const isFocused = useIsFocused();
+  const [cart, setCart] = useState<CartItemListProps>();
+  const [cartItems, setCartItems] = useState();
+  const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const { data, loading, error } = useUserCart(userId);
-  const isEmptyCart = data?.userCart.length === 0;
-  const total = data?.userCart?.total as number;
-  const fixedTotal = total?.toFixed(2);
+  const [isEmptyCart, setIsEmptyCart] = useState(false);
+  const [total, setTotal] = useState(0);
+  // const { data, loading, error } = useUserCart(userId);
+  // const isEmptyCart = data?.userCart.length === 0;
+  // const total = data?.userCart?.total as number;
+  // const fixedTotal = total?.toFixed(2);
+
+  const loadData = async () => {
+    try {
+      let token: string;
+
+      const userData = await getData();
+      token = userData.token;
+
+      const cart = await getCart(userId, token);
+      setCart(cart);
+      setCartItems(cart.cartItems);
+      setIsEmptyCart(cart.length === 0);
+      setTotal(cart.total.toFixed(2));
+      setLoading(false);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await loadData();
+    })();
+  }, [isFocused]);
 
   return (
     <View>
       {isEmptyCart ? (
-        <View style={cart.main}>
+        <View style={cartStyle.main}>
           <Header title="Carrito" isNestedScreen={true} />
-          <View style={cart.emptyCart}>
-            <Image source={require(emptyCart)} style={cart.emptyCartImg} />
-            <View style={cart.emptyInfo}>
-              <TextSemiBold style={cart.emptyCartTitle}>
+          <View style={cartStyle.emptyCart}>
+            <Image source={require(emptyCart)} style={cartStyle.emptyCartImg} />
+            <View style={cartStyle.emptyInfo}>
+              <TextSemiBold style={cartStyle.emptyCartTitle}>
                 Tu carrito está vacío
               </TextSemiBold>
-              <TextRegular style={cart.emptyCartText}>
+              <TextRegular style={cartStyle.emptyCartText}>
                 Agrega productos para continuar
               </TextRegular>
             </View>
@@ -37,22 +70,24 @@ const Cart = (props: UserIdProps) => {
         </View>
       ) : (
         <View>
-          <View style={cart.main}>
-            <View style={cart.container}>
+          <View style={cartStyle.main}>
+            <View style={cartStyle.container}>
               <Header title="Carrito" isNestedScreen={true} />
-              <CartList cartItems={data?.userCart?.cartItems} />
+              <CartList cartItems={cartItems} />
             </View>
             {/* Checkout */}
-            <View style={cart.checkout}>
-              <View style={cart.checkoutInfo}>
-                <TextRegular style={cart.checkoutText}>Total:</TextRegular>
-                <TextSemiBold style={cart.checkoutPrice}>${fixedTotal}</TextSemiBold>
+            <View style={cartStyle.checkout}>
+              <View style={cartStyle.checkoutInfo}>
+                <TextRegular style={cartStyle.checkoutText}>Total:</TextRegular>
+                <TextSemiBold style={cartStyle.checkoutPrice}>
+                  ${total}
+                </TextSemiBold>
               </View>
               {/* Checkout Button */}
               <TouchableOpacity
-                style={cart.checkoutButton}
+                style={cartStyle.checkoutButton}
                 onPress={() => setModalVisible(true)}>
-                <TextRegular style={cart.checkoutButtonText}>
+                <TextRegular style={cartStyle.checkoutButtonText}>
                   Proceder al pago
                 </TextRegular>
               </TouchableOpacity>
