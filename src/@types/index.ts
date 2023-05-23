@@ -39,10 +39,10 @@ export interface CategoryProps {
 }
 export interface GiftProps {
   id: string | undefined;
-  name: string;
-  image: string;
-  rating: number;
-  price: number;
+  name: string | undefined;
+  image: string | undefined;
+  rating: number | undefined;
+  price: number | undefined;
   description: string | undefined;
   createdAt: string | undefined;
 }

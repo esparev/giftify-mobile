@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, Image } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
-import { GiftScreenProps } from '../@types/index';
-import useGift from '../graphql/useGift';
+import { GiftProps, GiftScreenProps } from '../@types';
+import getGift from '../api/getGift';
 import useCartByUser from '../graphql/useCart';
 import { addToCartMutation } from '../graphql/cartMutation';
 import { getData } from '../storage';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
 import { handleType, addQty, removeQty } from '../utils/functions/qtyModifier';
-import gift from './styles/gift';
+import giftStyle from './styles/gift';
 
-const defaultGift = '../assets/static/default-gift.png';
 const star = '../assets/icons/favorite-star.png';
 
 let userUsername: string;
@@ -25,10 +24,13 @@ let userUsername: string;
 
 const Gift = (props: GiftScreenProps) => {
   const { route: { params: { id } } } = props; // prettier-ignore
-  const { loading, error, data } = useGift(id);
+  const isFocused = useIsFocused();
   const { data: cartData } = useCartByUser(userUsername);
+  const [loading, setLoading] = useState(true);
+  const [gift, setGift] = useState<GiftProps>();
+  const [giftImage, setGiftImage] = useState('https://i.imgur.com/2wChz0k.png');
   const [qty, setQty] = useState(1);
-  const [total, setTotal] = useState(data?.gift.price);
+  const [total, setTotal] = useState(0);
   const [activeBtn, setActiveBtn] = useState(true);
   const [addToCart] = useMutation(addToCartMutation);
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -40,59 +42,83 @@ const Gift = (props: GiftScreenProps) => {
     addToCart({ variables: { data: data } });
   };
 
+  const loadData = async () => {
+    try {
+      const gift = await getGift(id);
+      setGift(gift);
+      setGiftImage(gift.image);
+      setLoading(false);
+      setTotal(gift.price);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await loadData();
+    })();
+  }, [isFocused]);
+
   return (
-    <View style={gift.main}>
+    <View style={giftStyle.main}>
       {/* Product */}
-      <View style={gift.product}>
+      <View style={giftStyle.product}>
         {/* Header */}
         <Header title="Detalles" isNestedScreen />
         {/* Details */}
-        <View style={gift.details}>
+        <View style={giftStyle.details}>
           {/* Image */}
-          <Image
-            source={{ uri: data?.gift?.image }}
-            defaultSource={require(defaultGift)}
-            style={gift.image}
-          />
+          <Image source={{ uri: giftImage }} style={giftStyle.image} />
           {/* Info */}
-          <View style={gift.info}>
-            <TextSemiBold style={gift.name}>{data?.gift?.name}</TextSemiBold>
+          <View style={giftStyle.info}>
+            <TextSemiBold style={giftStyle.name}>{gift?.name}</TextSemiBold>
             {/* Meta */}
-            <View style={gift.meta}>
-              <Image source={require(star)} style={gift.ratingStar} />
-              <TextRegular style={gift.metaText}>
-                {data?.gift?.rating} | Buen empaque
+            <View style={giftStyle.meta}>
+              <Image source={require(star)} style={giftStyle.ratingStar} />
+              <TextRegular style={giftStyle.metaText}>
+                {gift?.rating} | Buen empaque
               </TextRegular>
             </View>
           </View>
           {/* Description */}
-          <TextRegular style={gift.description}>
-            {data?.gift?.description}
+          <TextRegular style={giftStyle.description}>
+            {gift?.description}
           </TextRegular>
         </View>
         {/* Type */}
-        <View style={gift.type}>
-          <TextRegular style={gift.typeText}>Tipo</TextRegular>
+        <View style={giftStyle.type}>
+          <TextRegular style={giftStyle.typeText}>Tipo</TextRegular>
           {/* Buttons */}
-          <View style={gift.buttons}>
+          <View style={giftStyle.buttons}>
             <TouchableOpacity
-              style={[gift.btn, activeBtn ? gift.btnActive : gift.btnInactive]}
+              style={[
+                giftStyle.btn,
+                activeBtn ? giftStyle.btnActive : giftStyle.btnInactive,
+              ]}
               onPress={() => handleType('delivery', setActiveBtn)}>
               <TextRegular
                 style={[
-                  gift.btnText,
-                  activeBtn ? gift.btnTextActive : gift.btnTextInactive,
+                  giftStyle.btnText,
+                  activeBtn
+                    ? giftStyle.btnTextActive
+                    : giftStyle.btnTextInactive,
                 ]}>
                 Entrega
               </TextRegular>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[gift.btn, activeBtn ? gift.btnInactive : gift.btnActive]}
+              style={[
+                giftStyle.btn,
+                activeBtn ? giftStyle.btnInactive : giftStyle.btnActive,
+              ]}
               onPress={() => handleType('pickup', setActiveBtn)}>
               <TextRegular
                 style={[
-                  gift.btnText,
-                  activeBtn ? gift.btnTextInactive : gift.btnTextActive,
+                  giftStyle.btnText,
+                  activeBtn
+                    ? giftStyle.btnTextInactive
+                    : giftStyle.btnTextActive,
                 ]}>
                 Recoger
               </TextRegular>
@@ -101,40 +127,38 @@ const Gift = (props: GiftScreenProps) => {
         </View>
       </View>
       {/* Footer */}
-      <View style={gift.footer}>
+      <View style={giftStyle.footer}>
         {/* Quantity */}
-        <View style={gift.qty}>
-          <TextRegular style={gift.qtyText}>Cantidad</TextRegular>
+        <View style={giftStyle.qty}>
+          <TextRegular style={giftStyle.qtyText}>Cantidad</TextRegular>
           {/* Buttons */}
-          <View style={gift.qtyModifier}>
+          <View style={giftStyle.qtyModifier}>
             <TouchableOpacity
-              style={gift.removeQty}
-              onPress={() =>
-                removeQty(qty, data?.gift?.price, setQty, setTotal)
-              }>
-              <TextSemiBold style={gift.qtyItems}>-</TextSemiBold>
+              style={giftStyle.removeQty}
+              onPress={() => removeQty(qty, gift?.price, setQty, setTotal)}>
+              <TextSemiBold style={giftStyle.qtyItems}>-</TextSemiBold>
             </TouchableOpacity>
-            <TextSemiBold style={gift.qtyItems}>{qty}</TextSemiBold>
+            <TextSemiBold style={giftStyle.qtyItems}>{qty}</TextSemiBold>
             <TouchableOpacity
-              style={gift.addQty}
-              onPress={() => addQty(qty, data?.gift?.price, setQty, setTotal)}>
-              <TextSemiBold style={gift.qtyItems}>+</TextSemiBold>
+              style={giftStyle.addQty}
+              onPress={() => addQty(qty, gift?.price, setQty, setTotal)}>
+              <TextSemiBold style={giftStyle.qtyItems}>+</TextSemiBold>
             </TouchableOpacity>
           </View>
         </View>
         {/* Payment */}
-        <View style={gift.payment}>
-          <View style={gift.total}>
-            <TextRegular style={gift.totalText}>Total:</TextRegular>
-            <TextSemiBold style={gift.totalValue}>${total}</TextSemiBold>
+        <View style={giftStyle.payment}>
+          <View style={giftStyle.total}>
+            <TextRegular style={giftStyle.totalText}>Total:</TextRegular>
+            <TextSemiBold style={giftStyle.totalValue}>${total}</TextSemiBold>
           </View>
           <TouchableOpacity
-            style={gift.checkoutBtn}
+            style={giftStyle.checkoutBtn}
             onPress={() => {
               handleAddToCart();
               navigation.push('Cart', { userId: userId });
             }}>
-            <TextRegular style={gift.checkoutText}>Order</TextRegular>
+            <TextRegular style={giftStyle.checkoutText}>Order</TextRegular>
           </TouchableOpacity>
         </View>
       </View>

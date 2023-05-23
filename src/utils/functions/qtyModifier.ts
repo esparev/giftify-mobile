@@ -14,13 +14,15 @@ export const handleType = (
  */
 export const addQty = (
   qty: number,
-  price: number,
+  price: number | undefined,
   setQty: React.Dispatch<React.SetStateAction<number>>,
   setTotal: React.Dispatch<React.SetStateAction<number>>,
 ) => {
-  setQty(qty + 1);
-  const totalValue = Number((price * (qty + 1)).toFixed(2));
-  setTotal(totalValue);
+  if (price) {
+    setQty(qty + 1);
+    const totalValue = Number((price * (qty + 1)).toFixed(2));
+    setTotal(totalValue);
+  }
 };
 
 /**
@@ -28,13 +30,15 @@ export const addQty = (
  */
 export const removeQty = (
   qty: number,
-  price: number,
+  price: number | undefined,
   setQty: React.Dispatch<React.SetStateAction<number>>,
   setTotal: React.Dispatch<React.SetStateAction<number>>,
 ) => {
-  if (qty > 1) {
-    setQty(qty - 1);
-    const totalValue = Number((price * (qty - 1)).toFixed(2));
-    setTotal(totalValue);
+  if (price) {
+    if (qty > 1) {
+      setQty(qty - 1);
+      const totalValue = Number((price * (qty - 1)).toFixed(2));
+      setTotal(totalValue);
+    }
   }
 };
