@@ -6,7 +6,12 @@ const cart = StyleSheet.create({
   main: {
     height: '100%',
     padding: 24,
+    rowGap: 24,
     justifyContent: 'space-between',
+  },
+  skeletonMain: {
+    padding: 24,
+    rowGap: 24,
   },
   container: {
     rowGap: 24,

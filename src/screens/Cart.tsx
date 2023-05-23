@@ -4,11 +4,13 @@ import { useIsFocused } from '@react-navigation/native';
 import { UserIdProps } from '../@types';
 import getCart from '../api/getCart';
 import { getData } from '../storage';
+import cartSkeleton from '../skeletons/styles/cartSkeleton';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import Header from '../components/Header';
+import CartList from '../components/Lists/CartList';
 import Checkout from '../modals/Checkout';
 import cartStyle from './styles/cart';
-import CartList from '../components/Lists/CartList';
+import CartSkeleton from '../skeletons/CartSkeleton';
 
 const emptyCart = '../assets/icons/basket.png';
 
@@ -63,29 +65,39 @@ const Cart = (props: UserIdProps) => {
         </View>
       ) : (
         <View>
-          <View style={cartStyle.main}>
-            <View style={cartStyle.container}>
+          {loading ? (
+            <View style={cartStyle.skeletonMain}>
               <Header title="Carrito" isNestedScreen={true} />
-              <CartList cartItems={cartItems} />
+              <CartSkeleton />
             </View>
-            {/* Checkout */}
-            <View style={cartStyle.checkout}>
-              <View style={cartStyle.checkoutInfo}>
-                <TextRegular style={cartStyle.checkoutText}>Total:</TextRegular>
-                <TextSemiBold style={cartStyle.checkoutPrice}>
-                  ${total}
-                </TextSemiBold>
+          ) : (
+            <View style={cartStyle.main}>
+              <View style={cartStyle.container}>
+                <Header title="Carrito" isNestedScreen={true} />
+                <CartList cartItems={cartItems} />
               </View>
-              {/* Checkout Button */}
-              <TouchableOpacity
-                style={cartStyle.checkoutButton}
-                onPress={() => setModalVisible(true)}>
-                <TextRegular style={cartStyle.checkoutButtonText}>
-                  Proceder al pago
-                </TextRegular>
-              </TouchableOpacity>
+              {/* Checkout */}
+              <View style={cartStyle.checkout}>
+                <View style={cartStyle.checkoutInfo}>
+                  <TextRegular style={cartStyle.checkoutText}>
+                    Total:
+                  </TextRegular>
+                  <TextSemiBold style={cartStyle.checkoutPrice}>
+                    ${total}
+                  </TextSemiBold>
+                </View>
+                {/* Checkout Button */}
+                <TouchableOpacity
+                  style={cartStyle.checkoutButton}
+                  onPress={() => setModalVisible(true)}>
+                  <TextRegular style={cartStyle.checkoutButtonText}>
+                    Proceder al pago
+                  </TextRegular>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          )}
+
           {/* Checkout Modal */}
           <Checkout
             modalVisible={modalVisible}
