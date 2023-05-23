@@ -16,6 +16,7 @@ const color = {
   primary_text: '#FCFCFC',
   secondary_text: '#CBCBCB',
   tertiary_text: '#6E6E6E',
+  tertiary_text50: '#6E6E6E50',
   foreground: '#2F2F2F',
   background: '#1F1F1F',
 };

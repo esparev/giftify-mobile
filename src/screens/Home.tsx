@@ -5,6 +5,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { UserProps } from '../@types';
 import getHome from '../api/getHome';
 import { getData } from '../storage';
+import HomeSkeleton from '../skeletons/HomeSkeleton';
 import { TextRegular, TextSemiBold } from '../components/CustomText';
 import GiftList from '../components/Lists/GiftList';
 import icon from '../styles/icon';
@@ -92,11 +93,7 @@ const Home = (): JSX.Element => {
       {/* Categories */}
       <View></View>
       {/* Gift Items */}
-      {loading ? (
-        <ActivityIndicator color="#ffffff" />
-      ) : (
-        <GiftList gifts={gifts} />
-      )}
+      {loading ? <HomeSkeleton /> : <GiftList gifts={gifts} />}
     </View>
   );
 };
