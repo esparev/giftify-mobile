@@ -16,7 +16,7 @@ export const addQty = (
   qty: number,
   price: number | undefined,
   setQty: React.Dispatch<React.SetStateAction<number>>,
-  setTotal: React.Dispatch<React.SetStateAction<number>>,
+  setTotal: React.Dispatch<React.SetStateAction<number | undefined>>,
 ) => {
   if (price) {
     setQty(qty + 1);
@@ -32,7 +32,7 @@ export const removeQty = (
   qty: number,
   price: number | undefined,
   setQty: React.Dispatch<React.SetStateAction<number>>,
-  setTotal: React.Dispatch<React.SetStateAction<number>>,
+  setTotal: React.Dispatch<React.SetStateAction<number | undefined>>,
 ) => {
   if (price) {
     if (qty > 1) {
