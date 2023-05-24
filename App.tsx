@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import StartStackNavigator from './src/navigation/StartStackNavigator';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client'; // prettier-ignore
@@ -32,6 +32,9 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 /**
  * App component for the app entry point

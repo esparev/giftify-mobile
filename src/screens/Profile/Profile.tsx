@@ -89,6 +89,7 @@ const Profile = (props: ProfileScreenProps) => {
           style={profile.item}
           onPress={() => {
             removeData();
+            navigation.push('Home');
             navigation.push('Login');
           }}>
           <View style={profile.purple}>
