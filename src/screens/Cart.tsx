@@ -41,7 +41,6 @@ const Cart = (props: UserIdProps) => {
 
   const handleAddToCart = (giftId?: string, qty?: number, price?: number) => {
     const data = { giftId: giftId, cartId: cartId, quantity: qty };
-    console.log(Number(total) + price!);
     setTotal(Number(total) + price!);
     addToCart({ variables: { data: data } });
   };
@@ -52,7 +51,6 @@ const Cart = (props: UserIdProps) => {
     price?: number,
   ) => {
     const data = { giftId: giftId, cartId: cartId, quantity: qty };
-    console.log(Number(total) - price!);
     setTotal(Number(total) - price!);
     removeFromCart({ variables: { data: data } });
   };
@@ -66,7 +64,7 @@ const Cart = (props: UserIdProps) => {
 
       const cart = await getCart(userId, token);
       setCartItems(cart.cartItems);
-      setIsEmptyCart(cart.length === 0);
+      setIsEmptyCart(cart.cartItems.length === 0);
       setTotal(cart.total.toFixed(2));
       setLoading(false);
     } catch (error) {
