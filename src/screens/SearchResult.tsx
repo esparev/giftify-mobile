@@ -4,7 +4,8 @@ import { ApolloError } from '@apollo/client';
 import { SearchScreenProps } from '../@types';
 import useGiftsByCategory from '../graphql/useGiftsByCategory';
 import useGiftsBySearchInput from '../graphql/useGiftsBySearchInput';
-import { TextSemiBold } from '../components/CustomText';
+import { TextRegular, TextSemiBold } from '../components/CustomText';
+import HomeSkeleton from '../skeletons/HomeSkeleton';
 import Header from '../components/Header';
 import GiftList from '../components/Lists/GiftList';
 import Filters from '../modals/Filters';
@@ -13,24 +14,30 @@ import search from './styles/search';
 
 const searchIcon = '../assets/icons/search.png';
 const adjustments = '../assets/icons/adjustments.png';
+const emptyResult = '../assets/icons/search-circle.png';
 
 const SearchResult = (props: SearchScreenProps): JSX.Element => {
   const { route: { params: { category } } } = props; // prettier-ignore
   const { route: { params: { searchInput } } } = props; // prettier-ignore
   const [modalVisible, setModalVisible] = useState(false);
-  const { loading, error, data } = useGiftsByCategory(category);
+  const [noCoincidence, setNoCoincidence] = useState(false);
   const {
-    loading: loading2,
-    error: error2,
-    data: data2,
+    loading: loadingByCategory,
+    error: errorByCategory,
+    data: categoryData,
+  } = useGiftsByCategory(category);
+  const {
+    loading: loadingBySearchInput,
+    error: errorBySearchInput,
+    data: searchInputData,
   } = useGiftsBySearchInput(searchInput);
 
-  let filteredGifts;
+  let filteredGifts = [];
 
   if (category) {
-    filteredGifts = data?.giftsByCategory;
+    filteredGifts = categoryData?.giftsByCategory;
   } else if (searchInput) {
-    filteredGifts = data2?.giftsBySearchInput;
+    filteredGifts = searchInputData?.giftsBySearchInput;
   }
 
   return (
@@ -56,7 +63,30 @@ const SearchResult = (props: SearchScreenProps): JSX.Element => {
         {/* Explore/Categories */}
         <View style={{ rowGap: 16, height: '100%', paddingBottom: 100 }}>
           <TextSemiBold style={search.title}>Resultados</TextSemiBold>
-          <GiftList gifts={filteredGifts} />
+          {filteredGifts?.length === 0 ? (
+            <View style={search.emptyResult}>
+              <Image
+                source={require(emptyResult)}
+                style={search.emptyResultImg}
+              />
+              <View style={search.emptyInfo}>
+                <TextSemiBold style={search.emptyResultTitle}>
+                  No se encontraron coincidencias
+                </TextSemiBold>
+                <TextRegular style={search.emptyResultText}>
+                  Intenta buscando algo diferente
+                </TextRegular>
+              </View>
+            </View>
+          ) : (
+            <View>
+              {loadingByCategory || loadingBySearchInput ? (
+                <HomeSkeleton />
+              ) : (
+                <GiftList gifts={filteredGifts} />
+              )}
+            </View>
+          )}
         </View>
       </View>
       {/* Filters Modal */}

@@ -51,6 +51,26 @@ const search = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  emptyResult: {
+    top: -100,
+    rowGap: -60,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyResultImg: {
+    width: '40%',
+    resizeMode: 'contain',
+  },
+  emptyInfo: {
+    alignItems: 'center',
+  },
+  emptyResultTitle: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: color.primary_text,
+  },
+  emptyResultText: {},
 });
 
 export default search;
